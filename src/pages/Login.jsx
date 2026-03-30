@@ -39,7 +39,7 @@ export default function Login() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-      <Card title="SignsUvidha Admin" style={{ width: 400 }} headStyle={{ textAlign: 'center', fontSize: 20 }}>
+      <Card title="SignSuvidha Admin" style={{ width: 400 }} headStyle={{ textAlign: 'center', fontSize: 20 }}>
         <Form onFinish={onFinish} layout="vertical" size="large">
           <Form.Item name="email" rules={[{ required: true, type: 'email' }]}><Input prefix={<UserOutlined />} placeholder="Email" /></Form.Item>
           <Form.Item name="password" rules={[{ required: true }]}><Input.Password prefix={<LockOutlined />} placeholder="Password" /></Form.Item>

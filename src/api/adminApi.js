@@ -8,6 +8,7 @@ export const adminApi = createApi({
     'Dashboard',
     'ProductTypes',
     'Materials',
+    'ImageAssets',
     'Elements',
     'Fonts',
     'FontSizes',
@@ -38,6 +39,22 @@ export const adminApi = createApi({
     getMaterials: builder.query({
       query: (params) => ({ url: '/admin/materials', params }),
       providesTags: ['Materials'],
+    }),
+    getImageAssets: builder.query({
+      query: (params) => ({ url: '/admin/image-assets', params }),
+      providesTags: ['ImageAssets'],
+    }),
+    createImageAsset: builder.mutation({
+      query: (body) => ({ url: '/admin/image-assets', method: 'POST', body }),
+      invalidatesTags: ['ImageAssets'],
+    }),
+    updateImageAsset: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/image-assets/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['ImageAssets'],
+    }),
+    deleteImageAsset: builder.mutation({
+      query: (id) => ({ url: `/admin/image-assets/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['ImageAssets'],
     }),
     createMaterial: builder.mutation({
       query: (body) => ({ url: '/admin/materials', method: 'POST', body }),
@@ -279,9 +296,13 @@ export const {
   useGetProductTypesQuery,
   useUpdateProductTypeMutation,
   useGetMaterialsQuery,
+  useGetImageAssetsQuery,
   useCreateMaterialMutation,
+  useCreateImageAssetMutation,
   useUpdateMaterialMutation,
+  useUpdateImageAssetMutation,
   useDeleteMaterialMutation,
+  useDeleteImageAssetMutation,
   useGetElementsQuery,
   useCreateElementMutation,
   useUpdateElementMutation,

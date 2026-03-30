@@ -12,6 +12,7 @@ const menuItems = [
   { key: '/', icon: <DashboardOutlined />, label: <Link to="/">Dashboard</Link> },
   { key: '/product-types', icon: <BarcodeOutlined />, label: <Link to="/product-types">Product Types</Link> },
   { key: '/materials', icon: <BarcodeOutlined />, label: <Link to="/materials">Materials</Link> },
+  { key: '/image-assets', icon: <BarcodeOutlined />, label: <Link to="/image-assets">Image Assets</Link> },
   { key: '/elements', icon: <BarcodeOutlined />, label: <Link to="/elements">Elements</Link> },
   { key: '/fonts', icon: <BarcodeOutlined />, label: <Link to="/fonts">Fonts</Link> },
   { key: '/font-sizes', icon: <BarcodeOutlined />, label: <Link to="/font-sizes">Font Sizes</Link> },

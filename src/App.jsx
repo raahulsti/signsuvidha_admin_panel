@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ProductTypes from './pages/ProductTypes';
 import Materials from './pages/Materials';
+import ImageAssets from './pages/ImageAssets';
 import Elements from './pages/Elements';
 import Fonts from './pages/Fonts';
 import FontSizes from './pages/FontSizes';
@@ -41,6 +42,7 @@ export default function App() {
           <Route index element={<Dashboard />} />
           <Route path="product-types" element={<ProductTypes />} />
           <Route path="materials" element={<Materials />} />
+          <Route path="image-assets" element={<ImageAssets />} />
           <Route path="elements" element={<Elements />} />
           <Route path="fonts" element={<Fonts />} />
           <Route path="font-sizes" element={<FontSizes />} />

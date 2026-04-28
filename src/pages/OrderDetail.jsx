@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Card, Descriptions, Table, Select, message, Spin, Button, Space, Modal, Input } from 'antd';
 import { useGetOrderQuery, useUpdateOrderStatusMutation, useEmailOrderInvoiceMutation } from '../api/adminApi';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+
 export default function OrderDetail() {
   const { id } = useParams();
   const { data, isLoading } = useGetOrderQuery(id);
@@ -25,7 +27,7 @@ export default function OrderDetail() {
     try {
       setIsDownloading(true);
       const token = localStorage.getItem('accessToken');
-      const response = await fetch(`/api/admin/orders/${id}/invoice/download`, {
+      const response = await fetch(`${API_BASE_URL}/admin/orders/${id}/invoice/download`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       if (!response.ok) throw new Error('Failed to download invoice');

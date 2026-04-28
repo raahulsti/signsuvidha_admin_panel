@@ -15,7 +15,19 @@ export default function Vendors() {
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
+    {
+      title: 'Logo',
+      dataIndex: 'logo_url',
+      key: 'logo_url',
+      width: 80,
+      render: (url) => (url ? <img src={url} alt="logo" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 6 }} /> : '-'),
+    },
     { title: 'Business', dataIndex: 'business_name', key: 'business_name' },
+    { title: 'GST', dataIndex: 'gst_number', key: 'gst_number', width: 150, render: (v) => v || '-' },
+    { title: 'Address', dataIndex: 'address', key: 'address', width: 220, render: (v) => v || '-' },
+    { title: 'City', dataIndex: 'city', key: 'city', width: 120, render: (v) => v || '-' },
+    { title: 'State', dataIndex: 'state', key: 'state', width: 120, render: (v) => v || '-' },
+    { title: 'Pincode', dataIndex: 'pincode', key: 'pincode', width: 110, render: (v) => v || '-' },
     { title: 'Owner', dataIndex: 'owner_name', key: 'owner_name' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Status', key: 'status', width: 140, render: (_, row) => (

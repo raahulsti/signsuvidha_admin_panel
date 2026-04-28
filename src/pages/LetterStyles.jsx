@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, InputNumber, Select, Switch, Popconfirm, message } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Switch, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   useGetLetterStylesQuery, useCreateLetterStyleMutation, useUpdateLetterStyleMutation,
-  useDeleteLetterStyleMutation, useGetProductTypesQuery,
+  useDeleteLetterStyleMutation,
 } from '../api/adminApi';
 
 export default function LetterStyles() {
@@ -12,20 +12,18 @@ export default function LetterStyles() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const { data: resp, isLoading } = useGetLetterStylesQuery();
-  const { data: ptResp } = useGetProductTypesQuery();
   const [createItem, { isLoading: creating }] = useCreateLetterStyleMutation();
   const [updateItem, { isLoading: updating }] = useUpdateLetterStyleMutation();
   const [deleteItem] = useDeleteLetterStyleMutation();
   const list = resp?.data ?? resp ?? [];
-  const productTypes = ptResp?.data ?? ptResp ?? [];
 
   const filtered = useMemo(() => {
     const t = searchText.trim().toLowerCase();
     return (Array.isArray(list) ? list : []).filter((r) => !t || String(r.name || '').toLowerCase().includes(t));
   }, [list, searchText]);
 
-  const openCreate = () => { setEditing(null); form.resetFields(); form.setFieldsValue({ price_multiplier: 1, admin_price_extra: 0, is_active: true }); setModalOpen(true); };
-  const openEdit = (row) => { setEditing(row); form.setFieldsValue({ product_type_id: row.product_type_id, name: row.name, price_multiplier: Number(row.price_multiplier || 1), admin_price_extra: Number(row.admin_price_extra || 0), is_active: !!row.is_active }); setModalOpen(true); };
+  const openCreate = () => { setEditing(null); form.resetFields(); form.setFieldsValue({ is_active: true }); setModalOpen(true); };
+  const openEdit = (row) => { setEditing(row); form.setFieldsValue({ name: row.name, is_active: !!row.is_active }); setModalOpen(true); };
   const submit = async () => {
     try {
       const v = await form.validateFields();
@@ -52,9 +50,6 @@ export default function LetterStyles() {
         columns={[
           { title: 'ID', dataIndex: 'id', width: 70 },
           { title: 'Name', dataIndex: 'name' },
-          { title: 'Product Type', dataIndex: 'product_type_id', width: 120 },
-          { title: 'Multiplier', dataIndex: 'price_multiplier', width: 110 },
-          { title: 'Price Extra (₹)', dataIndex: 'admin_price_extra', width: 120 },
           { title: 'Active', dataIndex: 'is_active', width: 90, render: (v) => (v ? 'Yes' : 'No') },
           {
             title: 'Actions', width: 110, render: (_, row) => (
@@ -70,10 +65,7 @@ export default function LetterStyles() {
       />
       <Modal title={editing ? 'Edit Letter Style' : 'Create Letter Style'} open={modalOpen} onCancel={() => setModalOpen(false)} onOk={submit} confirmLoading={creating || updating}>
         <Form form={form} layout="vertical">
-          <Form.Item name="product_type_id" label="Product Type" rules={[{ required: true }]}><Select options={(Array.isArray(productTypes) ? productTypes : []).map((p) => ({ label: p.name, value: p.id }))} /></Form.Item>
           <Form.Item name="name" label="Name" rules={[{ required: true }]}><Input /></Form.Item>
-          <Form.Item name="price_multiplier" label="Price Multiplier"><InputNumber min={0.1} max={10} step={0.01} style={{ width: '100%' }} /></Form.Item>
-          <Form.Item name="admin_price_extra" label="Price Extra (₹)"><InputNumber min={0} step={0.01} style={{ width: '100%' }} /></Form.Item>
           <Form.Item name="is_active" label="Active" valuePropName="checked"><Switch /></Form.Item>
         </Form>
       </Modal>

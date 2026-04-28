@@ -13,6 +13,7 @@ import {
   message,
   Tag,
   Upload,
+  Image,
 } from 'antd';
 import {
   PlusOutlined,
@@ -134,6 +135,13 @@ export default function Materials() {
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
+    {
+      title: 'Preview',
+      dataIndex: 'file_url',
+      key: 'file_url',
+      width: 90,
+      render: (url) => (url ? <Image src={url} width={46} height={46} style={{ objectFit: 'cover', borderRadius: 6 }} /> : '-'),
+    },
     { title: 'Name', dataIndex: 'name', key: 'name' },
     {
       title: 'Product Type',
@@ -201,7 +209,7 @@ export default function Materials() {
         <Space wrap>
           <Input
             allowClear
-            prefix={<SearchOutlined />}
+            prefix={<SearchOutlined />}         
             placeholder="Search material / product type"
             style={{ width: 260 }}
             value={searchText}

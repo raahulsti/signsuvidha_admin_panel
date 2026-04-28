@@ -13,6 +13,7 @@ export const adminApi = createApi({
     'Fonts',
     'FontSizes',
     'LetterStyles',
+    'IlluminationOptions',
     'DimensionUnits',
     'ShippingServices',
     'ListedProducts',
@@ -131,6 +132,22 @@ export const adminApi = createApi({
     deleteLetterStyle: builder.mutation({
       query: (id) => ({ url: `/admin/letter-styles/${id}`, method: 'DELETE' }),
       invalidatesTags: ['LetterStyles'],
+    }),
+    getIlluminationOptions: builder.query({
+      query: (params) => ({ url: '/admin/illumination-options', params }),
+      providesTags: ['IlluminationOptions'],
+    }),
+    createIlluminationOption: builder.mutation({
+      query: (body) => ({ url: '/admin/illumination-options', method: 'POST', body }),
+      invalidatesTags: ['IlluminationOptions'],
+    }),
+    updateIlluminationOption: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/illumination-options/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['IlluminationOptions'],
+    }),
+    deleteIlluminationOption: builder.mutation({
+      query: (id) => ({ url: `/admin/illumination-options/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['IlluminationOptions'],
     }),
     getDimensionUnits: builder.query({
       query: () => '/admin/dimension-units',
@@ -288,6 +305,9 @@ export const adminApi = createApi({
       query: ({ id, status }) => ({ url: `/admin/orders/${id}/status`, method: 'PUT', body: { status } }),
       invalidatesTags: ['Orders', 'Dashboard'],
     }),
+    emailOrderInvoice: builder.mutation({
+      query: ({ id, email }) => ({ url: `/admin/orders/${id}/invoice/email`, method: 'POST', body: { email } }),
+    }),
   }),
 });
 
@@ -319,6 +339,10 @@ export const {
   useCreateLetterStyleMutation,
   useUpdateLetterStyleMutation,
   useDeleteLetterStyleMutation,
+  useGetIlluminationOptionsQuery,
+  useCreateIlluminationOptionMutation,
+  useUpdateIlluminationOptionMutation,
+  useDeleteIlluminationOptionMutation,
   useGetDimensionUnitsQuery,
   useCreateDimensionUnitMutation,
   useUpdateDimensionUnitMutation,
@@ -358,4 +382,5 @@ export const {
   useGetOrdersQuery,
   useGetOrderQuery,
   useUpdateOrderStatusMutation,
+  useEmailOrderInvoiceMutation,
 } = adminApi;

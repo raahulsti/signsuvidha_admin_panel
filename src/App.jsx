@@ -10,6 +10,7 @@ import Elements from './pages/Elements';
 import Fonts from './pages/Fonts';
 import FontSizes from './pages/FontSizes';
 import LetterStyles from './pages/LetterStyles';
+import IlluminationOptions from './pages/IlluminationOptions';
 import DimensionUnits from './pages/DimensionUnits';
 import ShippingServices from './pages/ShippingServices';
 import ListedProducts from './pages/ListedProducts';
@@ -23,13 +24,19 @@ import OrderDetail from './pages/OrderDetail';
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  const user = useSelector((state) => state.auth.user);
+  const roles = Array.isArray(user?.roles) ? user.roles : [];
+  const isSuperAdmin = roles.includes('super_admin');
+  if (!isAuthenticated || !isSuperAdmin) return <Navigate to="/login" replace />;
   return children;
 }
 
 function LoginRoute() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  if (isAuthenticated) return <Navigate to="/" replace />;
+  const user = useSelector((state) => state.auth.user);
+  const roles = Array.isArray(user?.roles) ? user.roles : [];
+  const isSuperAdmin = roles.includes('super_admin');
+  if (isAuthenticated && isSuperAdmin) return <Navigate to="/" replace />;
   return <Login />;
 }
 
@@ -47,6 +54,7 @@ export default function App() {
           <Route path="fonts" element={<Fonts />} />
           <Route path="font-sizes" element={<FontSizes />} />
           <Route path="letter-styles" element={<LetterStyles />} />
+          <Route path="illumination-options" element={<IlluminationOptions />} />
           <Route path="dimension-units" element={<DimensionUnits />} />
           <Route path="shipping-services" element={<ShippingServices />} />
           <Route path="listed-products" element={<ListedProducts />} />

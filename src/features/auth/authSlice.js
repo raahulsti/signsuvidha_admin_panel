@@ -7,11 +7,24 @@ const loadUser = () => {
   } catch { return null; }
 };
 
-const initialState = {
-  user: loadUser(),
-  token: localStorage.getItem('accessToken'),
-  isAuthenticated: !!localStorage.getItem('accessToken'),
+const isSuperAdmin = (user) => {
+  const roles = Array.isArray(user?.roles) ? user.roles : [];
+  return roles.includes('super_admin');
 };
+
+const bootstrapAuth = () => {
+  const user = loadUser();
+  const token = localStorage.getItem('accessToken');
+  const isAuthenticated = Boolean(token && isSuperAdmin(user));
+  if (!isAuthenticated && (token || user)) {
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  }
+  return { user: isAuthenticated ? user : null, token: isAuthenticated ? token : null, isAuthenticated };
+};
+
+const initialState = bootstrapAuth();
 
 const authSlice = createSlice({
   name: 'auth',
@@ -19,6 +32,15 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       const { user, accessToken, refreshToken } = action.payload;
+      if (!isSuperAdmin(user) || !accessToken) {
+        state.user = null;
+        state.token = null;
+        state.isAuthenticated = false;
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        return;
+      }
       state.user = user;
       state.token = accessToken;
       state.isAuthenticated = true;

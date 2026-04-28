@@ -4,7 +4,7 @@ import { Form, Input, Button, Card, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../api/authApi';
-import { setCredentials } from '../features/auth/authSlice';
+import { logout, setCredentials } from '../features/auth/authSlice';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -22,6 +22,13 @@ export default function Login() {
       const payload = response?.data ?? response;
 
       if (payload?.accessToken && payload?.user) {
+        const roles = Array.isArray(payload.user.roles) ? payload.user.roles : [];
+        const isAdmin = roles.includes('super_admin');
+        if (!isAdmin) {
+          dispatch(logout());
+          message.error('Only super admin can login to admin panel.');
+          return;
+        }
         dispatch(
           setCredentials({
             user: payload.user,

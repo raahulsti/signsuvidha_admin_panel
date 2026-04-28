@@ -13,10 +13,11 @@ const menuItems = [
   { key: '/product-types', icon: <BarcodeOutlined />, label: <Link to="/product-types">Product Types</Link> },
   { key: '/materials', icon: <BarcodeOutlined />, label: <Link to="/materials">Materials</Link> },
   { key: '/image-assets', icon: <BarcodeOutlined />, label: <Link to="/image-assets">Image Assets</Link> },
-  // { key: '/elements', icon: <BarcodeOutlined />, label: <Link to="/elements">Elements</Link> },
+  { key: '/elements', icon: <BarcodeOutlined />, label: <Link to="/elements">Elements</Link> },
   { key: '/fonts', icon: <BarcodeOutlined />, label: <Link to="/fonts">Fonts</Link> },
   { key: '/font-sizes', icon: <BarcodeOutlined />, label: <Link to="/font-sizes">Font Sizes</Link> },
   { key: '/letter-styles', icon: <BarcodeOutlined />, label: <Link to="/letter-styles">Letter Styles</Link> },
+  { key: '/illumination-options', icon: <BarcodeOutlined />, label: <Link to="/illumination-options">Lit / Non-Lit</Link> },
   { key: '/dimension-units', icon: <BarcodeOutlined />, label: <Link to="/dimension-units">Dimension Units</Link> },
   // { key: '/shipping-services', icon: <BarcodeOutlined />, label: <Link to="/shipping-services">Shipping Services</Link> },
   { key: '/listed-products', icon: <BarcodeOutlined />, label: <Link to="/listed-products">Listed Products</Link> },
@@ -24,8 +25,8 @@ const menuItems = [
   { key: '/shadow-colors', icon: <BarcodeOutlined />, label: <Link to="/shadow-colors">Shadow Colors</Link> },
   { key: '/border-colors', icon: <BarcodeOutlined />, label: <Link to="/border-colors">Border Colors</Link> },
   { key: '/base-colors', icon: <BarcodeOutlined />, label: <Link to="/base-colors">Base Colors</Link> },
-  // { key: '/vendors', icon: <ShopOutlined />, label: <Link to="/vendors">Vendors</Link> },
-  // { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
+  { key: '/vendors', icon: <ShopOutlined />, label: <Link to="/vendors">Vendors</Link> },
+  { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
 ];
 
 export default function AdminLayout() {

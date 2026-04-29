@@ -26,7 +26,7 @@ const menuItems = [
   { key: '/border-colors', icon: <BarcodeOutlined />, label: <Link to="/border-colors">Border Colors</Link> },
   { key: '/base-colors', icon: <BarcodeOutlined />, label: <Link to="/base-colors">Base Colors</Link> },
   { key: '/vendors', icon: <ShopOutlined />, label: <Link to="/vendors">Vendors</Link> },
-  { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
+  // { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
 ];
 
 export default function AdminLayout() {

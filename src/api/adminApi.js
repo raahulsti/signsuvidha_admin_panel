@@ -8,6 +8,8 @@ export const adminApi = createApi({
     'Dashboard',
     'ProductTypes',
     'Materials',
+    'Bases',
+    'Thicknesses',
     'ImageAssets',
     'Elements',
     'Fonts',
@@ -68,6 +70,38 @@ export const adminApi = createApi({
     deleteMaterial: builder.mutation({
       query: (id) => ({ url: `/admin/materials/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Materials'],
+    }),
+    getBases: builder.query({
+      query: (params) => ({ url: '/admin/bases', params }),
+      providesTags: ['Bases'],
+    }),
+    createBase: builder.mutation({
+      query: (body) => ({ url: '/admin/bases', method: 'POST', body }),
+      invalidatesTags: ['Bases'],
+    }),
+    updateBase: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/bases/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['Bases'],
+    }),
+    deleteBase: builder.mutation({
+      query: (id) => ({ url: `/admin/bases/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Bases'],
+    }),
+    getThicknesses: builder.query({
+      query: (params) => ({ url: '/admin/thicknesses', params }),
+      providesTags: ['Thicknesses'],
+    }),
+    createThickness: builder.mutation({
+      query: (body) => ({ url: '/admin/thicknesses', method: 'POST', body }),
+      invalidatesTags: ['Thicknesses'],
+    }),
+    updateThickness: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/thicknesses/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['Thicknesses'],
+    }),
+    deleteThickness: builder.mutation({
+      query: (id) => ({ url: `/admin/thicknesses/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Thicknesses'],
     }),
     getElements: builder.query({
       query: (params) => ({ url: '/admin/elements', params }),
@@ -322,6 +356,14 @@ export const {
   useUpdateMaterialMutation,
   useUpdateImageAssetMutation,
   useDeleteMaterialMutation,
+  useGetBasesQuery,
+  useCreateBaseMutation,
+  useUpdateBaseMutation,
+  useDeleteBaseMutation,
+  useGetThicknessesQuery,
+  useCreateThicknessMutation,
+  useUpdateThicknessMutation,
+  useDeleteThicknessMutation,
   useDeleteImageAssetMutation,
   useGetElementsQuery,
   useCreateElementMutation,

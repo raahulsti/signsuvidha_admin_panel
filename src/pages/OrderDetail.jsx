@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { Card, Descriptions, Table, Select, message, Spin, Button, Space, Modal, Input } from 'antd';
+import { Card, Descriptions, Table, Select, message, Spin, Button, Space, Modal, Input, Tag } from 'antd';
 import { useGetOrderQuery, useUpdateOrderStatusMutation, useEmailOrderInvoiceMutation } from '../api/adminApi';
 
 export default function OrderDetail() {
@@ -78,9 +78,17 @@ export default function OrderDetail() {
           <Descriptions.Item label="Customer Email">{order.customer_email || '-'}</Descriptions.Item>
           <Descriptions.Item label="Vendor">{order.vendor_name}</Descriptions.Item>
           <Descriptions.Item label="Invoice #">{order.invoice_number || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Seller Type">
+            <Tag color={order.seller_type === 'admin' ? 'blue' : 'purple'}>{order.seller_type || '-'}</Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="Seller ID">{order.seller_id ?? '-'}</Descriptions.Item>
           <Descriptions.Item label="Status">{order.status}</Descriptions.Item>
           <Descriptions.Item label="Payment">{order.payment_status}</Descriptions.Item>
           <Descriptions.Item label="Total">₹{Number(order.total_amount || 0).toFixed(2)}</Descriptions.Item>
+          <Descriptions.Item label="GST %">{Number(order.gst_percent || 0).toFixed(2)}%</Descriptions.Item>
+          <Descriptions.Item label="GST Amount">₹{Number(order.gst_amount || 0).toFixed(2)}</Descriptions.Item>
+          <Descriptions.Item label="Payable Amount">₹{Number(order.payable_amount ?? order.total_amount ?? 0).toFixed(2)}</Descriptions.Item>
+          <Descriptions.Item label="Payment Batch ID">{order.payment_batch_id ?? '-'}</Descriptions.Item>
         </Descriptions>
         <div style={{ marginTop: 16 }}>
           <span style={{ marginRight: 8 }}>Update status:</span>

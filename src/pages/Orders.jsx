@@ -29,7 +29,12 @@ export default function Orders() {
           { title: 'Order #', dataIndex: 'order_number', key: 'order_number', width: 140 },
           { title: 'Customer', dataIndex: 'customer_name', key: 'customer_name' },
           { title: 'Vendor', dataIndex: 'vendor_name', key: 'vendor_name' },
+          { title: 'Seller Type', dataIndex: 'seller_type', key: 'seller_type', render: (v) => <Tag color={v === 'admin' ? 'blue' : 'purple'}>{v || '-'}</Tag> },
+          { title: 'Seller ID', dataIndex: 'seller_id', key: 'seller_id', render: (v) => v ?? '-' },
           { title: 'Amount', dataIndex: 'total_amount', key: 'total_amount', render: (v) => `₹${Number(v || 0).toFixed(2)}` },
+          { title: 'GST %', dataIndex: 'gst_percent', key: 'gst_percent', render: (v) => `${Number(v || 0).toFixed(2)}%` },
+          { title: 'GST Amount', dataIndex: 'gst_amount', key: 'gst_amount', render: (v) => `₹${Number(v || 0).toFixed(2)}` },
+          { title: 'Payable', dataIndex: 'payable_amount', key: 'payable_amount', render: (v, row) => `₹${Number(v ?? row.total_amount ?? 0).toFixed(2)}` },
           { title: 'Status', dataIndex: 'status', key: 'status', render: (s) => <Tag>{s}</Tag> },
           { title: '', key: 'actions', width: 80, render: (_, row) => <a onClick={() => navigate(`/orders/${row.id}`)}>View</a> },
         ]}

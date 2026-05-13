@@ -8,6 +8,8 @@ export const adminApi = createApi({
     'Dashboard',
     'ProductTypes',
     'Materials',
+    'MaterialStyles',
+    'Frames',
     'Bases',
     'Thicknesses',
     'ImageAssets',
@@ -70,6 +72,38 @@ export const adminApi = createApi({
     deleteMaterial: builder.mutation({
       query: (id) => ({ url: `/admin/materials/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Materials'],
+    }),
+    getMaterialStyles: builder.query({
+      query: (params) => ({ url: '/admin/material-styles', params }),
+      providesTags: ['MaterialStyles'],
+    }),
+    createMaterialStyle: builder.mutation({
+      query: (body) => ({ url: '/admin/material-styles', method: 'POST', body }),
+      invalidatesTags: ['MaterialStyles'],
+    }),
+    updateMaterialStyle: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/material-styles/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['MaterialStyles'],
+    }),
+    deleteMaterialStyle: builder.mutation({
+      query: (id) => ({ url: `/admin/material-styles/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['MaterialStyles'],
+    }),
+    getFrames: builder.query({
+      query: (params) => ({ url: '/admin/frames', params }),
+      providesTags: ['Frames'],
+    }),
+    createFrame: builder.mutation({
+      query: (body) => ({ url: '/admin/frames', method: 'POST', body }),
+      invalidatesTags: ['Frames'],
+    }),
+    updateFrame: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/frames/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['Frames'],
+    }),
+    deleteFrame: builder.mutation({
+      query: (id) => ({ url: `/admin/frames/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Frames'],
     }),
     getBases: builder.query({
       query: (params) => ({ url: '/admin/bases', params }),
@@ -356,6 +390,14 @@ export const {
   useUpdateMaterialMutation,
   useUpdateImageAssetMutation,
   useDeleteMaterialMutation,
+  useGetMaterialStylesQuery,
+  useCreateMaterialStyleMutation,
+  useUpdateMaterialStyleMutation,
+  useDeleteMaterialStyleMutation,
+  useGetFramesQuery,
+  useCreateFrameMutation,
+  useUpdateFrameMutation,
+  useDeleteFrameMutation,
   useGetBasesQuery,
   useCreateBaseMutation,
   useUpdateBaseMutation,

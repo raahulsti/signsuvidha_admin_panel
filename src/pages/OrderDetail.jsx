@@ -69,9 +69,9 @@ export default function OrderDetail() {
           <Button type="primary" onClick={handleDownloadInvoice} loading={isDownloading}>
             Download Invoice
           </Button>
-          <Button onClick={() => setIsEmailModalOpen(true)} loading={isEmailing}>
+          {/* <Button onClick={() => setIsEmailModalOpen(true)} loading={isEmailing}>
             Email Invoice
-          </Button>
+          </Button> */}
         </Space>
         <Descriptions column={2} bordered size="small">
           <Descriptions.Item label="Customer">{order.customer_name}</Descriptions.Item>

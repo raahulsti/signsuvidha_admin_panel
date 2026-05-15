@@ -7,6 +7,7 @@ import ProductTypes from './pages/ProductTypes';
 import Materials from './pages/Materials';
 import MaterialStyles from './pages/MaterialStyles';
 import Frames from './pages/Frames';
+import Wallpapers from './pages/Wallpapers';
 import Bases from './pages/Bases';
 import Thicknesses from './pages/Thicknesses';
 import ImageAssets from './pages/ImageAssets';
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="materials" element={<Materials />} />
           <Route path="material-styles" element={<MaterialStyles />} />
           <Route path="frames" element={<Frames />} />
+          <Route path="wallpapers" element={<Wallpapers />} />
           <Route path="bases" element={<Bases />} />
           <Route path="thicknesses" element={<Thicknesses />} />
           <Route path="image-assets" element={<ImageAssets />} />

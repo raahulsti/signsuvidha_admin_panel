@@ -14,6 +14,7 @@ const menuItems = [
   { key: '/materials', icon: <BarcodeOutlined />, label: <Link to="/materials">Materials</Link> },
   { key: '/material-styles', icon: <BarcodeOutlined />, label: <Link to="/material-styles">Material Styles</Link> },
   { key: '/frames', icon: <BarcodeOutlined />, label: <Link to="/frames">Frames</Link> },
+  { key: '/wallpapers', icon: <BarcodeOutlined />, label: <Link to="/wallpapers">Wallpapers</Link> },
   { key: '/bases', icon: <BarcodeOutlined />, label: <Link to="/bases">Bases</Link> },
   { key: '/thicknesses', icon: <BarcodeOutlined />, label: <Link to="/thicknesses">Thicknesses</Link> },
   { key: '/image-assets', icon: <BarcodeOutlined />, label: <Link to="/image-assets">Image Assets</Link> },

@@ -10,6 +10,7 @@ export const adminApi = createApi({
     'Materials',
     'MaterialStyles',
     'Frames',
+    'Wallpapers',
     'Bases',
     'Thicknesses',
     'ImageAssets',
@@ -104,6 +105,22 @@ export const adminApi = createApi({
     deleteFrame: builder.mutation({
       query: (id) => ({ url: `/admin/frames/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Frames'],
+    }),
+    getWallpapers: builder.query({
+      query: (params) => ({ url: '/admin/wallpapers', params }),
+      providesTags: ['Wallpapers'],
+    }),
+    createWallpaper: builder.mutation({
+      query: (body) => ({ url: '/admin/wallpapers', method: 'POST', body }),
+      invalidatesTags: ['Wallpapers'],
+    }),
+    updateWallpaper: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/wallpapers/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['Wallpapers'],
+    }),
+    deleteWallpaper: builder.mutation({
+      query: (id) => ({ url: `/admin/wallpapers/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Wallpapers'],
     }),
     getBases: builder.query({
       query: (params) => ({ url: '/admin/bases', params }),
@@ -398,6 +415,10 @@ export const {
   useCreateFrameMutation,
   useUpdateFrameMutation,
   useDeleteFrameMutation,
+  useGetWallpapersQuery,
+  useCreateWallpaperMutation,
+  useUpdateWallpaperMutation,
+  useDeleteWallpaperMutation,
   useGetBasesQuery,
   useCreateBaseMutation,
   useUpdateBaseMutation,

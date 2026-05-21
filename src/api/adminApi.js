@@ -11,6 +11,8 @@ export const adminApi = createApi({
     'MaterialStyles',
     'Frames',
     'Wallpapers',
+    'AddBorders',
+    'LollipopElements',
     'Bases',
     'Thicknesses',
     'ImageAssets',
@@ -28,6 +30,7 @@ export const adminApi = createApi({
     'BaseColors',
     'Vendors',
     'Orders',
+    'CmsPages',
   ],
   endpoints: (builder) => ({
     getDashboardStats: builder.query({
@@ -121,6 +124,38 @@ export const adminApi = createApi({
     deleteWallpaper: builder.mutation({
       query: (id) => ({ url: `/admin/wallpapers/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Wallpapers'],
+    }),
+    getAddBorders: builder.query({
+      query: (params) => ({ url: '/admin/add-borders', params }),
+      providesTags: ['AddBorders'],
+    }),
+    createAddBorder: builder.mutation({
+      query: (body) => ({ url: '/admin/add-borders', method: 'POST', body }),
+      invalidatesTags: ['AddBorders'],
+    }),
+    updateAddBorder: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/add-borders/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['AddBorders'],
+    }),
+    deleteAddBorder: builder.mutation({
+      query: (id) => ({ url: `/admin/add-borders/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['AddBorders'],
+    }),
+    getLollipopElements: builder.query({
+      query: (params) => ({ url: '/admin/lollipop-elements', params }),
+      providesTags: ['LollipopElements'],
+    }),
+    createLollipopElement: builder.mutation({
+      query: (body) => ({ url: '/admin/lollipop-elements', method: 'POST', body }),
+      invalidatesTags: ['LollipopElements'],
+    }),
+    updateLollipopElement: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/lollipop-elements/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['LollipopElements'],
+    }),
+    deleteLollipopElement: builder.mutation({
+      query: (id) => ({ url: `/admin/lollipop-elements/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['LollipopElements'],
     }),
     getBases: builder.query({
       query: (params) => ({ url: '/admin/bases', params }),
@@ -271,11 +306,21 @@ export const adminApi = createApi({
       providesTags: ['ListedProducts'],
     }),
     createListedProduct: builder.mutation({
-      query: (body) => ({ url: '/admin/listed-products', method: 'POST', body }),
+      query: (body) => ({
+        url: '/admin/listed-products',
+        method: 'POST',
+        body,
+        formData: body instanceof FormData,
+      }),
       invalidatesTags: ['ListedProducts'],
     }),
     updateListedProduct: builder.mutation({
-      query: ({ id, ...body }) => ({ url: `/admin/listed-products/${id}`, method: 'PUT', body }),
+      query: ({ id, body }) => ({
+        url: `/admin/listed-products/${id}`,
+        method: 'PUT',
+        body,
+        formData: body instanceof FormData,
+      }),
       invalidatesTags: ['ListedProducts'],
     }),
     deleteListedProduct: builder.mutation({
@@ -378,6 +423,18 @@ export const adminApi = createApi({
       query: (id) => ({ url: `/admin/vendors/${id}/toggle`, method: 'PUT' }),
       invalidatesTags: ['Vendors'],
     }),
+    getCmsPages: builder.query({
+      query: () => '/admin/cms-pages',
+      providesTags: ['CmsPages'],
+    }),
+    getCmsPageBySlug: builder.query({
+      query: (slug) => `/admin/cms-pages/${slug}`,
+      providesTags: (_r, _e, slug) => [{ type: 'CmsPages', id: slug }],
+    }),
+    updateCmsPage: builder.mutation({
+      query: ({ slug, body }) => ({ url: `/admin/cms-pages/${slug}`, method: 'PUT', body }),
+      invalidatesTags: (_r, _e, { slug }) => [{ type: 'CmsPages', id: slug }, 'CmsPages'],
+    }),
     getOrders: builder.query({
       query: (params) => ({ url: '/admin/orders', params }),
       providesTags: ['Orders'],
@@ -419,6 +476,14 @@ export const {
   useCreateWallpaperMutation,
   useUpdateWallpaperMutation,
   useDeleteWallpaperMutation,
+  useGetAddBordersQuery,
+  useCreateAddBorderMutation,
+  useUpdateAddBorderMutation,
+  useDeleteAddBorderMutation,
+  useGetLollipopElementsQuery,
+  useCreateLollipopElementMutation,
+  useUpdateLollipopElementMutation,
+  useDeleteLollipopElementMutation,
   useGetBasesQuery,
   useCreateBaseMutation,
   useUpdateBaseMutation,
@@ -484,6 +549,9 @@ export const {
   useApproveVendorMutation,
   useRejectVendorMutation,
   useToggleVendorBlockMutation,
+  useGetCmsPagesQuery,
+  useGetCmsPageBySlugQuery,
+  useUpdateCmsPageMutation,
   useGetOrdersQuery,
   useGetOrderQuery,
   useUpdateOrderStatusMutation,

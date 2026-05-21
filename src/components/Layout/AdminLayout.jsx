@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Avatar, Dropdown } from 'antd';
-import { DashboardOutlined, ShopOutlined, BarcodeOutlined, ContainerOutlined, UserOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { DashboardOutlined, ShopOutlined, BarcodeOutlined, ContainerOutlined, UserOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, FileTextOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLogoutMutation } from '../../api/authApi';
 import { logout } from '../../features/auth/authSlice';
@@ -15,6 +15,8 @@ const menuItems = [
   { key: '/material-styles', icon: <BarcodeOutlined />, label: <Link to="/material-styles">Material Styles</Link> },
   { key: '/frames', icon: <BarcodeOutlined />, label: <Link to="/frames">Frames</Link> },
   { key: '/wallpapers', icon: <BarcodeOutlined />, label: <Link to="/wallpapers">Wallpapers</Link> },
+  { key: '/add-borders', icon: <BarcodeOutlined />, label: <Link to="/add-borders">Add Borders</Link> },
+  { key: '/lollipop-elements', icon: <BarcodeOutlined />, label: <Link to="/lollipop-elements">Lollipop Elements</Link> },
   { key: '/bases', icon: <BarcodeOutlined />, label: <Link to="/bases">Bases</Link> },
   { key: '/thicknesses', icon: <BarcodeOutlined />, label: <Link to="/thicknesses">Thicknesses</Link> },
   { key: '/image-assets', icon: <BarcodeOutlined />, label: <Link to="/image-assets">Image Assets</Link> },
@@ -32,6 +34,7 @@ const menuItems = [
   { key: '/base-colors', icon: <BarcodeOutlined />, label: <Link to="/base-colors">Base Colors</Link> },
   { key: '/vendors', icon: <ShopOutlined />, label: <Link to="/vendors">Vendors</Link> },
   { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
+  { key: '/cms-pages', icon: <FileTextOutlined />, label: <Link to="/cms-pages">CMS Pages</Link> },
 ];
 
 export default function AdminLayout() {

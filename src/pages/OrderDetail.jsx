@@ -1,7 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { Card, Descriptions, Table, Select, message, Spin, Button, Space, Modal, Input, Tag } from 'antd';
+import { Card, Descriptions, Select, message, Spin, Button, Space, Modal, Input, Tag } from 'antd';
 import { useGetOrderQuery, useUpdateOrderStatusMutation, useEmailOrderInvoiceMutation } from '../api/adminApi';
+import OrderItemsDetail from '../components/OrderItemsDetail';
+
+const fmt = (v) => `₹${Number(v || 0).toFixed(2)}`;
 
 export default function OrderDetail() {
   const { id } = useParams();
@@ -13,6 +16,8 @@ export default function OrderDetail() {
   const [recipientEmail, setRecipientEmail] = useState('');
   const order = data?.data ?? data ?? {};
   const items = order.items ?? [];
+  const shipping = order.addresses?.shipping;
+  const billing = order.addresses?.billing;
 
   const handleStatusChange = async (status) => {
     try {
@@ -29,7 +34,6 @@ export default function OrderDetail() {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       if (!response.ok) throw new Error('Failed to download invoice');
-
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -63,32 +67,38 @@ export default function OrderDetail() {
 
   return (
     <>
-      <h2 style={{ marginBottom: 16 }}>Order #{order.order_number}</h2>
+      <h2 style={{ marginBottom: 16 }}>Order #{order.order_number || order.id}</h2>
       <Card style={{ marginBottom: 16 }}>
         <Space style={{ marginBottom: 12 }}>
           <Button type="primary" onClick={handleDownloadInvoice} loading={isDownloading}>
             Download Invoice
           </Button>
-          {/* <Button onClick={() => setIsEmailModalOpen(true)} loading={isEmailing}>
-            Email Invoice
-          </Button> */}
         </Space>
         <Descriptions column={2} bordered size="small">
-          <Descriptions.Item label="Customer">{order.customer_name}</Descriptions.Item>
-          <Descriptions.Item label="Customer Email">{order.customer_email || '-'}</Descriptions.Item>
-          <Descriptions.Item label="Vendor">{order.vendor_name}</Descriptions.Item>
-          <Descriptions.Item label="Invoice #">{order.invoice_number || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Customer">{order.customer_name || order.customer?.name || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Phone">{order.customer_phone || order.customer?.phone || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Email">{order.customer_email || order.customer?.email || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Seller">
+            {order.seller?.business_name || order.vendor_name || (order.seller_type === 'admin' ? 'SignsUvidha' : '-')}
+          </Descriptions.Item>
           <Descriptions.Item label="Seller Type">
             <Tag color={order.seller_type === 'admin' ? 'blue' : 'purple'}>{order.seller_type || '-'}</Tag>
           </Descriptions.Item>
-          <Descriptions.Item label="Seller ID">{order.seller_id ?? '-'}</Descriptions.Item>
-          <Descriptions.Item label="Status">{order.status}</Descriptions.Item>
-          <Descriptions.Item label="Payment">{order.payment_status}</Descriptions.Item>
-          <Descriptions.Item label="Total">₹{Number(order.total_amount || 0).toFixed(2)}</Descriptions.Item>
-          <Descriptions.Item label="GST %">{Number(order.gst_percent || 0).toFixed(2)}%</Descriptions.Item>
-          <Descriptions.Item label="GST Amount">₹{Number(order.gst_amount || 0).toFixed(2)}</Descriptions.Item>
-          <Descriptions.Item label="Payable Amount">₹{Number(order.payable_amount ?? order.total_amount ?? 0).toFixed(2)}</Descriptions.Item>
-          <Descriptions.Item label="Payment Batch ID">{order.payment_batch_id ?? '-'}</Descriptions.Item>
+          <Descriptions.Item label="Invoice #">{order.invoice_number || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Status"><Tag>{order.status}</Tag></Descriptions.Item>
+          <Descriptions.Item label="Payment status"><Tag color={order.payment_status === 'paid' ? 'green' : 'orange'}>{order.payment_status}</Tag></Descriptions.Item>
+          <Descriptions.Item label="Payment method">{order.payment_method || order.payment?.payment_method || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Subtotal">{fmt(order.subtotal ?? order.amounts?.subtotal)}</Descriptions.Item>
+          <Descriptions.Item label="GST">{Number(order.gst_percent ?? order.amounts?.gst_percent ?? 0).toFixed(2)}% ({fmt(order.gst_amount ?? order.amounts?.gst_amount)})</Descriptions.Item>
+          <Descriptions.Item label="Payable">{fmt(order.payable_amount ?? order.amounts?.payable_amount)}</Descriptions.Item>
+          <Descriptions.Item label="Shipping">{order.shipping?.service_name || '-'} {order.shipping?.cost > 0 ? fmt(order.shipping.cost) : ''}</Descriptions.Item>
+          {shipping && (
+            <Descriptions.Item label="Ship to" span={2}>{shipping.formatted || `${shipping.full_name}, ${shipping.address_line1}, ${shipping.city}`}</Descriptions.Item>
+          )}
+          {billing && !order.addresses?.billing_same_as_shipping && (
+            <Descriptions.Item label="Bill to" span={2}>{billing.formatted || `${billing.full_name}, ${billing.address_line1}`}</Descriptions.Item>
+          )}
+          {order.notes && <Descriptions.Item label="Notes" span={2}>{order.notes}</Descriptions.Item>}
         </Descriptions>
         <div style={{ marginTop: 16 }}>
           <span style={{ marginRight: 8 }}>Update status:</span>
@@ -97,12 +107,8 @@ export default function OrderDetail() {
           />
         </div>
       </Card>
-      <Card title="Items">
-        <Table dataSource={items} columns={[
-          { title: 'Product', dataIndex: 'product_name', key: 'product_name' },
-          { title: 'Qty', dataIndex: 'quantity', key: 'quantity', width: 80 },
-          { title: 'Price', dataIndex: 'total_price', key: 'total_price', render: (v) => `₹${Number(v || 0).toFixed(2)}` },
-        ]} rowKey="id" pagination={false} size="small" />
+      <Card title={`Order items (${items.length})`}>
+        <OrderItemsDetail items={items} />
       </Card>
       <Modal
         title="Email Invoice"
@@ -113,11 +119,7 @@ export default function OrderDetail() {
         confirmLoading={isEmailing}
       >
         <p style={{ marginBottom: 8 }}>Leave blank to use customer email saved on order.</p>
-        <Input
-          placeholder="customer@example.com"
-          value={recipientEmail}
-          onChange={(e) => setRecipientEmail(e.target.value)}
-        />
+        <Input placeholder="customer@example.com" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} />
       </Modal>
     </>
   );

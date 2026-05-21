@@ -8,6 +8,8 @@ import Materials from './pages/Materials';
 import MaterialStyles from './pages/MaterialStyles';
 import Frames from './pages/Frames';
 import Wallpapers from './pages/Wallpapers';
+import AddBorders from './pages/AddBorders';
+import LollipopElements from './pages/LollipopElements';
 import Bases from './pages/Bases';
 import Thicknesses from './pages/Thicknesses';
 import ImageAssets from './pages/ImageAssets';
@@ -26,6 +28,7 @@ import BaseColors from './pages/BaseColors';
 import Vendors from './pages/Vendors';
 import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
+import CmsPages from './pages/CmsPages';
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -57,6 +60,8 @@ export default function App() {
           <Route path="material-styles" element={<MaterialStyles />} />
           <Route path="frames" element={<Frames />} />
           <Route path="wallpapers" element={<Wallpapers />} />
+          <Route path="add-borders" element={<AddBorders />} />
+          <Route path="lollipop-elements" element={<LollipopElements />} />
           <Route path="bases" element={<Bases />} />
           <Route path="thicknesses" element={<Thicknesses />} />
           <Route path="image-assets" element={<ImageAssets />} />
@@ -75,6 +80,7 @@ export default function App() {
           <Route path="vendors" element={<Vendors />} />
           <Route path="orders" element={<Orders />} />
           <Route path="orders/:id" element={<OrderDetail />} />
+          <Route path="cms-pages" element={<CmsPages />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

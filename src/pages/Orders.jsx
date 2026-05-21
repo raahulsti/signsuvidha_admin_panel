@@ -35,6 +35,8 @@ export default function Orders() {
           { title: 'GST %', dataIndex: 'gst_percent', key: 'gst_percent', render: (v) => `${Number(v || 0).toFixed(2)}%` },
           { title: 'GST Amount', dataIndex: 'gst_amount', key: 'gst_amount', render: (v) => `₹${Number(v || 0).toFixed(2)}` },
           { title: 'Payable', dataIndex: 'payable_amount', key: 'payable_amount', render: (v, row) => `₹${Number(v ?? row.total_amount ?? 0).toFixed(2)}` },
+          { title: 'Items', dataIndex: 'item_count', key: 'item_count', width: 70 },
+          { title: 'Payment', dataIndex: 'payment_status', key: 'payment_status', render: (s) => <Tag color={s === 'paid' ? 'green' : 'orange'}>{s}</Tag> },
           { title: 'Status', dataIndex: 'status', key: 'status', render: (s) => <Tag>{s}</Tag> },
           { title: '', key: 'actions', width: 80, render: (_, row) => <a onClick={() => navigate(`/orders/${row.id}`)}>View</a> },
         ]}

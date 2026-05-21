@@ -13,6 +13,7 @@ export const adminApi = createApi({
     'Wallpapers',
     'AddBorders',
     'LollipopElements',
+    'Pylons',
     'Bases',
     'Thicknesses',
     'ImageAssets',
@@ -156,6 +157,45 @@ export const adminApi = createApi({
     deleteLollipopElement: builder.mutation({
       query: (id) => ({ url: `/admin/lollipop-elements/${id}`, method: 'DELETE' }),
       invalidatesTags: ['LollipopElements'],
+    }),
+    getPylons: builder.query({
+      query: (params) => ({ url: '/admin/pylons', params }),
+      providesTags: ['Pylons'],
+    }),
+    getPylon: builder.query({
+      query: (id) => `/admin/pylons/${id}`,
+      providesTags: ['Pylons'],
+    }),
+    createPylon: builder.mutation({
+      query: (body) => ({ url: '/admin/pylons', method: 'POST', body }),
+      invalidatesTags: ['Pylons'],
+    }),
+    updatePylon: builder.mutation({
+      query: ({ id, body }) => ({ url: `/admin/pylons/${id}`, method: 'PUT', body }),
+      invalidatesTags: ['Pylons'],
+    }),
+    deletePylon: builder.mutation({
+      query: (id) => ({ url: `/admin/pylons/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Pylons'],
+    }),
+    createPylonCategory: builder.mutation({
+      query: ({ pylonId, body }) => ({ url: `/admin/pylons/${pylonId}/categories`, method: 'POST', body }),
+      invalidatesTags: ['Pylons'],
+    }),
+    updatePylonCategory: builder.mutation({
+      query: ({ pylonId, categoryId, body }) => ({
+        url: `/admin/pylons/${pylonId}/categories/${categoryId}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Pylons'],
+    }),
+    deletePylonCategory: builder.mutation({
+      query: ({ pylonId, categoryId }) => ({
+        url: `/admin/pylons/${pylonId}/categories/${categoryId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Pylons'],
     }),
     getBases: builder.query({
       query: (params) => ({ url: '/admin/bases', params }),
@@ -484,6 +524,14 @@ export const {
   useCreateLollipopElementMutation,
   useUpdateLollipopElementMutation,
   useDeleteLollipopElementMutation,
+  useGetPylonsQuery,
+  useGetPylonQuery,
+  useCreatePylonMutation,
+  useUpdatePylonMutation,
+  useDeletePylonMutation,
+  useCreatePylonCategoryMutation,
+  useUpdatePylonCategoryMutation,
+  useDeletePylonCategoryMutation,
   useGetBasesQuery,
   useCreateBaseMutation,
   useUpdateBaseMutation,

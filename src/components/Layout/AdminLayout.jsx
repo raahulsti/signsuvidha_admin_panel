@@ -1,37 +1,64 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Avatar, Dropdown } from 'antd';
-import { DashboardOutlined, ShopOutlined, BarcodeOutlined, ContainerOutlined, UserOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, FileTextOutlined } from '@ant-design/icons';
+import {
+  DashboardOutlined,
+  ShopOutlined,
+  ContainerOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  FileTextOutlined,
+  AppstoreOutlined,
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLogoutMutation } from '../../api/authApi';
 import { logout } from '../../features/auth/authSlice';
 
 const { Header, Sider, Content } = Layout;
 
+const masterMenuItems = [
+  { path: '/product-types', label: 'Product Types' },
+  { path: '/materials', label: 'Materials' },
+  { path: '/material-styles', label: 'Material Styles' },
+  { path: '/frames', label: 'Frames' },
+  { path: '/wallpapers', label: 'Wallpapers' },
+  { path: '/add-borders', label: 'Add Borders' },
+  { path: '/lollipop-elements', label: 'Lollipop Elements' },
+  { path: '/pylons', label: 'Pylons' },
+  { path: '/bases', label: 'Bases' },
+  { path: '/thicknesses', label: 'Thicknesses' },
+  { path: '/image-assets', label: 'Image Assets' },
+  { path: '/elements', label: 'Elements' },
+  { path: '/fonts', label: 'Fonts' },
+  { path: '/font-sizes', label: 'Font Sizes' },
+  { path: '/letter-styles', label: 'Letter Styles' },
+  { path: '/illumination-options', label: 'Lit / Non-Lit' },
+  { path: '/dimension-units', label: 'Dimension Units' },
+  { path: '/listed-products', label: 'Listed Products' },
+  { path: '/colors', label: 'Colors' },
+  { path: '/shadow-colors', label: 'Shadow Colors' },
+  { path: '/border-colors', label: 'Border Colors' },
+  { path: '/base-colors', label: 'Base Colors' },
+];
+
+const isMasterPath = (pathname) =>
+  masterMenuItems.some(
+    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`)
+  );
+
 const menuItems = [
   { key: '/', icon: <DashboardOutlined />, label: <Link to="/">Dashboard</Link> },
-  { key: '/product-types', icon: <BarcodeOutlined />, label: <Link to="/product-types">Product Types</Link> },
-  { key: '/materials', icon: <BarcodeOutlined />, label: <Link to="/materials">Materials</Link> },
-  { key: '/material-styles', icon: <BarcodeOutlined />, label: <Link to="/material-styles">Material Styles</Link> },
-  { key: '/frames', icon: <BarcodeOutlined />, label: <Link to="/frames">Frames</Link> },
-  { key: '/wallpapers', icon: <BarcodeOutlined />, label: <Link to="/wallpapers">Wallpapers</Link> },
-  { key: '/add-borders', icon: <BarcodeOutlined />, label: <Link to="/add-borders">Add Borders</Link> },
-  { key: '/lollipop-elements', icon: <BarcodeOutlined />, label: <Link to="/lollipop-elements">Lollipop Elements</Link> },
-  { key: '/bases', icon: <BarcodeOutlined />, label: <Link to="/bases">Bases</Link> },
-  { key: '/thicknesses', icon: <BarcodeOutlined />, label: <Link to="/thicknesses">Thicknesses</Link> },
-  { key: '/image-assets', icon: <BarcodeOutlined />, label: <Link to="/image-assets">Image Assets</Link> },
-  { key: '/elements', icon: <BarcodeOutlined />, label: <Link to="/elements">Elements</Link> },
-  { key: '/fonts', icon: <BarcodeOutlined />, label: <Link to="/fonts">Fonts</Link> },
-  { key: '/font-sizes', icon: <BarcodeOutlined />, label: <Link to="/font-sizes">Font Sizes</Link> },
-  { key: '/letter-styles', icon: <BarcodeOutlined />, label: <Link to="/letter-styles">Letter Styles</Link> },
-  { key: '/illumination-options', icon: <BarcodeOutlined />, label: <Link to="/illumination-options">Lit / Non-Lit</Link> },
-  { key: '/dimension-units', icon: <BarcodeOutlined />, label: <Link to="/dimension-units">Dimension Units</Link> },
-  // { key: '/shipping-services', icon: <BarcodeOutlined />, label: <Link to="/shipping-services">Shipping Services</Link> },
-  { key: '/listed-products', icon: <BarcodeOutlined />, label: <Link to="/listed-products">Listed Products</Link> },
-  { key: '/colors', icon: <BarcodeOutlined />, label: <Link to="/colors">Colors</Link> },
-  { key: '/shadow-colors', icon: <BarcodeOutlined />, label: <Link to="/shadow-colors">Shadow Colors</Link> },
-  { key: '/border-colors', icon: <BarcodeOutlined />, label: <Link to="/border-colors">Border Colors</Link> },
-  { key: '/base-colors', icon: <BarcodeOutlined />, label: <Link to="/base-colors">Base Colors</Link> },
+  {
+    key: 'masters',
+    icon: <AppstoreOutlined />,
+    label: 'Masters',
+    children: masterMenuItems.map(({ path, label }) => ({
+      key: path,
+      label: <Link to={path}>{label}</Link>,
+    })),
+  },
   { key: '/vendors', icon: <ShopOutlined />, label: <Link to="/vendors">Vendors</Link> },
   { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
   { key: '/cms-pages', icon: <FileTextOutlined />, label: <Link to="/cms-pages">CMS Pages</Link> },
@@ -39,11 +66,20 @@ const menuItems = [
 
 export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
+  const [openKeys, setOpenKeys] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [logoutApi] = useLogoutMutation();
+
+  useEffect(() => {
+    if (isMasterPath(location.pathname)) {
+      setOpenKeys((keys) => (keys.includes('masters') ? keys : [...keys, 'masters']));
+    }
+  }, [location.pathname]);
+
+  const selectedKey = location.pathname.startsWith('/orders') ? '/orders' : location.pathname;
 
   const handleLogout = async () => {
     try { await logoutApi(); } finally { dispatch(logout()); navigate('/login'); }
@@ -55,7 +91,14 @@ export default function AdminLayout() {
         <div style={{ height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: collapsed ? 16 : 18, fontWeight: 600 }}>
           {collapsed ? 'SU' : 'SignsUvidha Admin'}
         </div>
-        <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]} items={menuItems} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[selectedKey]}
+          openKeys={openKeys}
+          onOpenChange={setOpenKeys}
+          items={menuItems}
+        />
       </Sider>
       <Layout>
         <Header style={{ padding: '0 24px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

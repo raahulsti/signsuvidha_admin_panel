@@ -64,7 +64,11 @@ export default function ListedProducts() {
     setFileList([]);
     setRemoveImageIds([]);
     const variantMap = {};
-    (row.variants || []).forEach((v) => { variantMap[`price_${v.size}`] = Number(v.admin_price || 0); });
+    (row.variants || []).forEach((v) => {
+      variantMap[`price_${v.size}`] = Number(v.admin_price || 0);
+      if (v.height != null) variantMap[`height_${v.size}`] = v.height;
+      if (v.width != null) variantMap[`width_${v.size}`] = v.width;
+    });
     form.setFieldsValue({
       product_type_id: row.product_type_id,
       name: row.name,
@@ -140,9 +144,27 @@ export default function ListedProducts() {
             width: 200,
             render: (_, row) => (row.variants || []).length
               ? (row.variants || []).map((v) => (
-                <div key={v.size}><Tag>{v.size}</Tag> ₹{Number(v.admin_price || 0).toFixed(0)}</div>
+                <div key={v.size}>
+                  <Tag>{v.size}</Tag> ₹{Number(v.admin_price || 0).toFixed(0)}
+                  {(v.height || v.width) && (
+                    <span style={{ marginLeft: 6, color: '#666' }}>
+                      ({[v.height, v.width].filter(Boolean).join(' × ')})
+                    </span>
+                  )}
+                </div>
               ))
               : '—',
+          },
+          {
+            title: 'Dimensions',
+            width: 140,
+            render: (_, row) => {
+              const withDims = (row.variants || []).filter((v) => v.height || v.width);
+              if (!withDims.length) return '—';
+              return withDims.map((v) => (
+                <div key={v.size}>{v.size}: {[v.height, v.width].filter(Boolean).join(' × ') || '—'}</div>
+              ));
+            },
           },
           { title: 'From ₹', dataIndex: 'price_from', width: 90, render: (v) => Number(v || 0).toFixed(0) },
           { title: 'Best', dataIndex: 'is_best_seller', width: 70, render: (v) => (v ? 'Yes' : 'No') },
@@ -174,15 +196,24 @@ export default function ListedProducts() {
           <Form.Item name="name" label="Product name" rules={[{ required: true }]}><Input /></Form.Item>
           <Form.Item name="description" label="Description"><Input.TextArea rows={3} /></Form.Item>
           <p style={{ margin: '0 0 8px', color: '#666', fontSize: 13 }}>
-            Size prices — fill only the sizes you sell (e.g. regular only, or regular + large). At least one required.
+            Size prices & dimensions — fill only the sizes you sell. At least one price required.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
-            {SIZES.map((s) => (
-              <Form.Item key={s.key} name={`price_${s.key}`} label={`${s.label} price (₹)`}>
-                <InputNumber min={0} step={0.01} style={{ width: '100%' }} placeholder="Optional" />
-              </Form.Item>
-            ))}
-          </div>
+          {SIZES.map((s) => (
+            <div key={s.key} style={{ marginBottom: 16, padding: 12, background: '#fafafa', borderRadius: 8 }}>
+              <div style={{ fontWeight: 600, marginBottom: 8 }}>{s.label}</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+                <Form.Item name={`price_${s.key}`} label="Price (₹)">
+                  <InputNumber min={0} step={0.01} style={{ width: '100%' }} placeholder="Optional" />
+                </Form.Item>
+                <Form.Item name={`height_${s.key}`} label="Height">
+                  <Input placeholder="e.g. 4 ft" />
+                </Form.Item>
+                <Form.Item name={`width_${s.key}`} label="Width">
+                  <Input placeholder="e.g. 2 ft" />
+                </Form.Item>
+              </div>
+            </div>
+          ))}
           <Form.Item label="Images (multiple)">
             <Upload
               listType="picture-card"

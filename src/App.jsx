@@ -10,6 +10,7 @@ import Frames from './pages/Frames';
 import Wallpapers from './pages/Wallpapers';
 import AddBorders from './pages/AddBorders';
 import LollipopElements from './pages/LollipopElements';
+import Pylons from './pages/Pylons';
 import Bases from './pages/Bases';
 import Thicknesses from './pages/Thicknesses';
 import ImageAssets from './pages/ImageAssets';
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="wallpapers" element={<Wallpapers />} />
           <Route path="add-borders" element={<AddBorders />} />
           <Route path="lollipop-elements" element={<LollipopElements />} />
+          <Route path="pylons" element={<Pylons />} />
           <Route path="bases" element={<Bases />} />
           <Route path="thicknesses" element={<Thicknesses />} />
           <Route path="image-assets" element={<ImageAssets />} />

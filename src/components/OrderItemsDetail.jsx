@@ -56,6 +56,9 @@ function OrderItemCard({ item, index }) {
       >
         {lp.thumbnail_url && <Image src={lp.thumbnail_url} width={120} style={{ marginBottom: 8 }} />}
         <SpecLine label="Size" value={lp.size} />
+        {(lp.height || lp.width) && (
+          <SpecLine label="Dimensions" value={[lp.height, lp.width].filter(Boolean).join(' × ')} />
+        )}
         <SpecLine label="Qty" value={item.quantity} />
         <SpecLine label="Total" value={`₹${Number(item.pricing?.total_price || 0).toFixed(2)}`} />
       </Card>
@@ -65,7 +68,7 @@ function OrderItemCard({ item, index }) {
   const dims = item.dimensions || {};
   const dimLabel = dims.unit_name
     ? `${dims.height} × ${dims.width} ${dims.unit_name}`
-    : item.is_lollipop
+    : item.is_lollipop || item.is_pylon
       ? 'Fixed pricing'
       : `${dims.height} × ${dims.width}`;
 
@@ -106,6 +109,17 @@ function OrderItemCard({ item, index }) {
           <EntityBlock title="Wallpaper" entity={item.wallpaper} />
           <EntityBlock title="Border base" entity={item.add_border} />
           <EntityBlock title="Lollipop element" entity={item.lollipop_element} imageKey="image" />
+          <EntityBlock title="Pylon" entity={item.pylon} />
+          {item.pylon_category && (
+            <div style={{ marginBottom: 8 }}>
+              <Text strong>Pylon category</Text>
+              <SpecLine label="Name" value={item.pylon_category.name} />
+              <SpecLine label="Tiles" value={item.pylon_category.tiles_name} />
+              <SpecLine label="Tiles count" value={item.pylon_tiles_count} />
+              <SpecLine label="Category price" value={`₹${Number(item.pylon_category.category_price || 0).toFixed(2)}`} />
+              <SpecLine label="Tile unit price" value={`₹${Number(item.pylon_category.tiles_price || 0).toFixed(2)}`} />
+            </div>
+          )}
           <EntityBlock title="Base" entity={item.base} />
           <EntityBlock title="Thickness" entity={item.thickness} />
           <EntityBlock title="Element" entity={item.element} />

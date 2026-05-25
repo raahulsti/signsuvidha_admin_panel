@@ -2,12 +2,72 @@ import { Card, Col, Row, Image, Tag, Typography, Divider, Collapse } from 'antd'
 
 const { Text } = Typography;
 
-function SpecLine({ label, value, extra }) {
+const BREAKDOWN_LABELS = {
+  price_per_sqft: 'Rate / sq ft',
+  material_cost: 'Material',
+  material_style_cost: 'Material style',
+  frame_cost: 'Frame',
+  wallpaper_cost: 'Wallpaper',
+  add_border_cost: 'Border',
+  lollipop_element_cost: 'Lollipop element',
+  pylon_category_cost: 'Pylon category',
+  pylon_tiles_cost: 'Pylon tiles',
+  base_cost: 'Base',
+  thickness_cost: 'Thickness',
+  element_cost: 'Element',
+  color_extra: 'Color extra',
+  font_extra: 'Font extra',
+  illumination_cost: 'Illumination',
+  material_style_price_per_sqft: 'Material style rate',
+  frame_price_per_sqft: 'Frame rate',
+  wallpaper_price_per_sqft: 'Wallpaper rate',
+  add_border_base_price: 'Border base',
+  add_border_lit_extra: 'Border lit extra',
+  base_price_per_sqft: 'Base rate',
+  thickness_price_per_sqft: 'Thickness rate',
+  pylon_category_price: 'Pylon category price',
+  pylon_tiles_price: 'Pylon tile unit price',
+  illumination_rate_per_sqft: 'Illumination rate',
+};
+
+const fmt = (v) => `₹${Number(v || 0).toFixed(2)}`;
+
+function formatLayerLabel(key) {
+  return String(key).replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function formatLayerValue(value) {
+  if (value == null || value === '') return null;
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+  if (typeof value === 'object') return JSON.stringify(value);
+  return String(value);
+}
+
+function colorSwatch(hex) {
+  if (!hex) return null;
+  const raw = String(hex).trim();
+  const css = raw.startsWith('#') ? raw : `#${raw}`;
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        width: 14,
+        height: 14,
+        background: css,
+        border: '1px solid #ccc',
+        borderRadius: 2,
+        flexShrink: 0,
+      }}
+    />
+  );
+}
+
+function SpecLine({ label, value, extra, strong }) {
   if (value == null || value === '') return null;
   return (
-    <div style={{ marginBottom: 4 }}>
-      <Text type="secondary">{label}: </Text>
-      <Text>{value}</Text>
+    <div style={{ marginBottom: 4, display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+      <Text type="secondary" style={{ minWidth: 120, flexShrink: 0 }}>{label}:</Text>
+      <Text strong={strong} style={{ wordBreak: 'break-word' }}>{value}</Text>
       {extra}
     </div>
   );
@@ -34,13 +94,93 @@ function EntityBlock({ title, entity, imageKey = 'file_url' }) {
         <SpecLine
           label="Color"
           value={entity.hex_code}
-          extra={<span style={{ display: 'inline-block', width: 14, height: 14, background: entity.hex_code, border: '1px solid #ccc', marginLeft: 6, verticalAlign: 'middle' }} />}
+          extra={colorSwatch(entity.hex_code)}
         />
       )}
       {img && (
         <Image src={img} alt={title} width={72} height={72} style={{ objectFit: 'cover', marginTop: 4, borderRadius: 4 }} />
       )}
     </div>
+  );
+}
+
+function TextLayersBlock({ layers }) {
+  if (!layers?.length) return null;
+  return (
+    <div style={{ marginTop: 8 }}>
+      <Text strong>Text layers</Text>
+      {layers.map((layer, i) => {
+        const entries = Object.entries(layer || {}).filter(([, v]) => v != null && v !== '');
+        return (
+          <div
+            key={i}
+            style={{
+              marginTop: 8,
+              padding: '10px 12px',
+              background: '#fafafa',
+              borderRadius: 6,
+              border: '1px solid #f0f0f0',
+            }}
+          >
+            <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 6 }}>
+              Layer {i + 1}
+            </Text>
+            {entries.length === 0 ? (
+              <Text type="secondary">Empty layer</Text>
+            ) : (
+              entries.map(([key, value]) => {
+                const display = formatLayerValue(value);
+                if (display == null) return null;
+                const isColor = key === 'color' || key.toLowerCase().includes('color');
+                return (
+                  <div
+                    key={key}
+                    style={{
+                      display: 'flex',
+                      gap: 8,
+                      marginBottom: 4,
+                      alignItems: isColor ? 'center' : 'flex-start',
+                    }}
+                  >
+                    <Text type="secondary" style={{ minWidth: 100, flexShrink: 0 }}>
+                      {formatLayerLabel(key)}
+                    </Text>
+                    {isColor ? (
+                      <>
+                        {colorSwatch(display)}
+                        <Text style={{ wordBreak: 'break-word' }}>{display}</Text>
+                      </>
+                    ) : (
+                      <Text style={{ wordBreak: 'break-word', flex: 1 }}>{display}</Text>
+                    )}
+                  </div>
+                );
+              })
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function OrderTotalsCard({ amounts }) {
+  if (!amounts) return null;
+  const subtotal = amounts.subtotal ?? amounts.total_amount;
+  const gstPercent = Number(amounts.gst_percent || 0);
+  const gstAmount = Number(amounts.gst_amount || 0);
+  const shipping = Number(amounts.shipping_cost || 0);
+  const payable = amounts.payable_amount ?? amounts.total_amount;
+
+  return (
+    <Card size="small" title="Order totals" style={{ marginTop: 16 }}>
+      <SpecLine label="Subtotal" value={fmt(subtotal)} />
+      {shipping > 0 && <SpecLine label="Shipping" value={fmt(shipping)} />}
+      {(gstPercent > 0 || gstAmount > 0) && (
+        <SpecLine label={`GST (${gstPercent.toFixed(2)}%)`} value={fmt(gstAmount)} />
+      )}
+      <SpecLine label="Payable" value={fmt(payable)} strong />
+    </Card>
   );
 }
 
@@ -60,7 +200,7 @@ function OrderItemCard({ item, index }) {
           <SpecLine label="Dimensions" value={[lp.height, lp.width].filter(Boolean).join(' × ')} />
         )}
         <SpecLine label="Qty" value={item.quantity} />
-        <SpecLine label="Total" value={`₹${Number(item.pricing?.total_price || 0).toFixed(2)}`} />
+        <SpecLine label="Total" value={fmt(item.pricing?.total_price)} />
       </Card>
     );
   }
@@ -75,13 +215,17 @@ function OrderItemCard({ item, index }) {
   const breakdown = item.pricing?.breakdown || {};
   const breakdownRows = Object.entries(breakdown)
     .filter(([, v]) => Number(v) > 0)
-    .map(([k, v]) => ({ key: k, label: k.replace(/_/g, ' '), value: Number(v).toFixed(2) }));
+    .map(([k, v]) => ({
+      key: k,
+      label: BREAKDOWN_LABELS[k] || k.replace(/_/g, ' '),
+      value: Number(v).toFixed(2),
+    }));
 
   return (
     <Card
       size="small"
       title={`Item ${index + 1}: ${item.product_type?.name || 'Product'}`}
-      extra={<Tag color="blue">₹{Number(item.pricing?.total_price || 0).toFixed(2)}</Tag>}
+      extra={<Tag color="blue">{fmt(item.pricing?.total_price)}</Tag>}
       style={{ marginBottom: 16 }}
     >
       <Row gutter={16}>
@@ -115,9 +259,19 @@ function OrderItemCard({ item, index }) {
               <Text strong>Pylon category</Text>
               <SpecLine label="Name" value={item.pylon_category.name} />
               <SpecLine label="Tiles" value={item.pylon_category.tiles_name} />
-              <SpecLine label="Tiles count" value={item.pylon_tiles_count} />
-              <SpecLine label="Category price" value={`₹${Number(item.pylon_category.category_price || 0).toFixed(2)}`} />
-              <SpecLine label="Tile unit price" value={`₹${Number(item.pylon_category.tiles_price || 0).toFixed(2)}`} />
+              <SpecLine label="Tiles count" value={item.tiles ?? item.pylon_tiles_count} />
+              <SpecLine label="Category price" value={fmt(item.pylon_category.category_price)} />
+              <SpecLine label="Tile unit price" value={fmt(item.pylon_category.tiles_price)} />
+            </div>
+          )}
+          {item.pylon_tiles_images?.length > 0 && (
+            <div style={{ marginBottom: 8 }}>
+              <Text strong>Tile images</Text>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
+                {item.pylon_tiles_images.map((url, i) => (
+                  <Image key={i} src={url} alt={`Tile ${i + 1}`} width={72} height={72} style={{ objectFit: 'cover', borderRadius: 4 }} />
+                ))}
+              </div>
             </div>
           )}
           <EntityBlock title="Base" entity={item.base} />
@@ -126,21 +280,7 @@ function OrderItemCard({ item, index }) {
           <EntityBlock title="Color" entity={item.color} />
           <EntityBlock title="Font" entity={item.font} />
           <EntityBlock title="Illumination" entity={item.illumination_option} />
-          {item.text_layers?.length > 0 && (
-            <div style={{ marginTop: 8 }}>
-              <Text strong>Text layers</Text>
-              <ul style={{ margin: '4px 0 0', paddingLeft: 18 }}>
-                {item.text_layers.map((layer, i) => (
-                  <li key={i}>
-                    <Text>
-                      {layer.text || layer.content || JSON.stringify(layer)}
-                      {layer.fontSize ? ` (${layer.fontSize}px)` : ''}
-                    </Text>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <TextLayersBlock layers={item.text_layers} />
           {breakdownRows.length > 0 && (
             <Collapse
               size="small"
@@ -151,9 +291,11 @@ function OrderItemCard({ item, index }) {
                 children: (
                   <div>
                     {breakdownRows.map((r) => (
-                      <SpecLine key={r.key} label={r.label} value={`₹${r.value}`} />
+                      <SpecLine key={r.key} label={r.label} value={fmt(r.value)} />
                     ))}
-                    <SpecLine label="Unit price" value={`₹${Number(item.pricing?.unit_price || 0).toFixed(2)}`} />
+                    <Divider style={{ margin: '8px 0' }} />
+                    <SpecLine label="Unit price" value={fmt(item.pricing?.unit_price)} />
+                    <SpecLine label="Line total" value={fmt(item.pricing?.total_price)} strong />
                   </div>
                 ),
               }]}
@@ -165,7 +307,14 @@ function OrderItemCard({ item, index }) {
   );
 }
 
-export default function OrderItemsDetail({ items = [] }) {
+export default function OrderItemsDetail({ items = [], orderAmounts }) {
   if (!items.length) return <Text type="secondary">No items in this order</Text>;
-  return items.map((item, index) => <OrderItemCard key={item.id || index} item={item} index={index} />);
+  return (
+    <>
+      {items.map((item, index) => (
+        <OrderItemCard key={item.id || index} item={item} index={index} />
+      ))}
+      <OrderTotalsCard amounts={orderAmounts} />
+    </>
+  );
 }

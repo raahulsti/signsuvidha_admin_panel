@@ -18,6 +18,13 @@ export default function OrderDetail() {
   const items = order.items ?? [];
   const shipping = order.addresses?.shipping;
   const billing = order.addresses?.billing;
+  const orderAmounts = {
+    subtotal: order.subtotal ?? order.amounts?.subtotal,
+    gst_percent: order.gst_percent ?? order.amounts?.gst_percent,
+    gst_amount: order.gst_amount ?? order.amounts?.gst_amount,
+    shipping_cost: order.shipping?.cost ?? order.amounts?.shipping_cost,
+    payable_amount: order.payable_amount ?? order.amounts?.payable_amount,
+  };
 
   const handleStatusChange = async (status) => {
     try {
@@ -108,7 +115,7 @@ export default function OrderDetail() {
         </div>
       </Card>
       <Card title={`Order items (${items.length})`}>
-        <OrderItemsDetail items={items} />
+        <OrderItemsDetail items={items} orderAmounts={orderAmounts} />
       </Card>
       <Modal
         title="Email Invoice"

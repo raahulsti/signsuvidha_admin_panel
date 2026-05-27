@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Switch, Popconfirm, message } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Modal, Form, Input, Switch, /* Popconfirm, */ message } from 'antd';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined } from '@ant-design/icons';
 import {
   useGetLetterStylesQuery, useCreateLetterStyleMutation, useUpdateLetterStyleMutation,
-  useDeleteLetterStyleMutation,
+  // useDeleteLetterStyleMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function LetterStyles() {
@@ -14,7 +14,8 @@ export default function LetterStyles() {
   const { data: resp, isLoading } = useGetLetterStylesQuery();
   const [createItem, { isLoading: creating }] = useCreateLetterStyleMutation();
   const [updateItem, { isLoading: updating }] = useUpdateLetterStyleMutation();
-  const [deleteItem] = useDeleteLetterStyleMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteLetterStyleMutation();
   const list = resp?.data ?? resp ?? [];
 
   const filtered = useMemo(() => {
@@ -55,9 +56,11 @@ export default function LetterStyles() {
             title: 'Actions', width: 110, render: (_, row) => (
               <Space>
                 <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+                {/* Delete disabled — use is_active instead to preserve cart/order references
                 <Popconfirm title="Delete?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Delete failed'))}>
                   <Button type="link" danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                */}
               </Space>
             ),
           },

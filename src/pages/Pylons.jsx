@@ -1,18 +1,18 @@
 import { useMemo, useState } from 'react';
 import {
-  Table, Button, Space, Modal, Form, Input, InputNumber, Switch, Popconfirm,
+  Table, Button, Space, Modal, Form, Input, InputNumber, Switch, /* Popconfirm, */
   message, Tag, Upload, Image, Select, Drawer, Divider,
 } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   useGetPylonsQuery,
   useGetProductTypesQuery,
   useCreatePylonMutation,
   useUpdatePylonMutation,
-  useDeletePylonMutation,
+  // useDeletePylonMutation, // Delete disabled — use is_active instead to preserve cart/order references
   useCreatePylonCategoryMutation,
   useUpdatePylonCategoryMutation,
-  useDeletePylonCategoryMutation,
+  // useDeletePylonCategoryMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function Pylons() {
@@ -29,10 +29,12 @@ export default function Pylons() {
   const { data: ptResp } = useGetProductTypesQuery();
   const [createPylon, { isLoading: creating }] = useCreatePylonMutation();
   const [updatePylon, { isLoading: updating }] = useUpdatePylonMutation();
-  const [deletePylon] = useDeletePylonMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deletePylon] = useDeletePylonMutation();
   const [createCategory, { isLoading: creatingCat }] = useCreatePylonCategoryMutation();
   const [updateCategory, { isLoading: updatingCat }] = useUpdatePylonCategoryMutation();
-  const [deleteCategory] = useDeletePylonCategoryMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteCategory] = useDeletePylonCategoryMutation();
 
   const rows = resp?.data ?? resp ?? [];
   const productTypes = ptResp?.data ?? ptResp ?? [];
@@ -178,6 +180,7 @@ export default function Pylons() {
         <Space>
           <Button size="small" onClick={() => openCategories(row)}>Categories</Button>
           <Button size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete this pylon?" onConfirm={async () => {
             try {
               await deletePylon(row.id).unwrap();
@@ -188,6 +191,7 @@ export default function Pylons() {
           }}>
             <Button size="small" danger icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },
@@ -212,6 +216,7 @@ export default function Pylons() {
       render: (_, cat) => (
         <Space>
           <Button size="small" icon={<EditOutlined />} onClick={() => openEditCategory(cat)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete category?" onConfirm={async () => {
             try {
               await deleteCategory({ pylonId: activePylon.id, categoryId: cat.id }).unwrap();
@@ -222,6 +227,7 @@ export default function Pylons() {
           }}>
             <Button size="small" danger icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

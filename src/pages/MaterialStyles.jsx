@@ -9,17 +9,17 @@ import {
   InputNumber,
   Select,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
 } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined } from '@ant-design/icons';
 import {
   useGetMaterialStylesQuery,
   useGetProductTypesQuery,
   useCreateMaterialStyleMutation,
   useUpdateMaterialStyleMutation,
-  useDeleteMaterialStyleMutation,
+  // useDeleteMaterialStyleMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function MaterialStyles() {
@@ -33,7 +33,8 @@ export default function MaterialStyles() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createRow, { isLoading: creating }] = useCreateMaterialStyleMutation();
   const [updateRow, { isLoading: updating }] = useUpdateMaterialStyleMutation();
-  const [deleteRow] = useDeleteMaterialStyleMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteRow] = useDeleteMaterialStyleMutation();
 
   const rows = listResp?.data ?? listResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -138,9 +139,11 @@ export default function MaterialStyles() {
             render: (_, row) => (
               <Space>
                 <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(row)} />
+                {/* Delete disabled — use is_active instead to preserve cart/order references
                 <Popconfirm title="Delete this material style?" onConfirm={() => deleteRow(row.id).unwrap().then(() => message.success('Deleted'))}>
                   <Button type="link" danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                */}
               </Space>
             ),
           },

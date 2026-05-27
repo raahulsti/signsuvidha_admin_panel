@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import {
-  Table, Button, Space, Modal, Form, Input, InputNumber, Select, Switch, Popconfirm,
+  Table, Button, Space, Modal, Form, Input, InputNumber, Select, Switch, /* Popconfirm, */
   message, Upload, Image, Tag,
 } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   useGetListedProductsQuery, useCreateListedProductMutation, useUpdateListedProductMutation,
-  useDeleteListedProductMutation, useGetProductTypesQuery,
+  // useDeleteListedProductMutation, // Delete disabled — use is_active instead to preserve cart/order references
+  useGetProductTypesQuery,
 } from '../api/adminApi';
 
 const SIZES = [
@@ -40,7 +41,8 @@ export default function ListedProducts() {
   const { data: ptResp } = useGetProductTypesQuery();
   const [createItem, { isLoading: creating }] = useCreateListedProductMutation();
   const [updateItem, { isLoading: updating }] = useUpdateListedProductMutation();
-  const [deleteItem] = useDeleteListedProductMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteListedProductMutation();
 
   const list = resp?.data ?? resp ?? [];
   const productTypes = ptResp?.data ?? ptResp ?? [];
@@ -173,9 +175,11 @@ export default function ListedProducts() {
             title: 'Actions', width: 100, render: (_, row) => (
               <Space>
                 <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+                {/* Delete disabled — use is_active instead to preserve cart/order references
                 <Popconfirm title="Delete?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Delete failed'))}>
                   <Button type="link" danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                */}
               </Space>
             ),
           },

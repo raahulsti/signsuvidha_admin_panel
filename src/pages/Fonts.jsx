@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   Table, Button, Space, Modal, Form, Input, InputNumber, Select,
-  Switch, Popconfirm, message, Tag,
+  Switch, /* Popconfirm, */ message, Tag,
 } from 'antd';
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined,
+  PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined,
 } from '@ant-design/icons';
 import {
   useGetFontsQuery, useCreateFontMutation, useUpdateFontMutation,
-  useDeleteFontMutation, useGetProductTypesQuery,
+  // useDeleteFontMutation, // Delete disabled — use is_active instead to preserve cart/order references
+  useGetProductTypesQuery,
 } from '../api/adminApi';
 import { GOOGLE_FONT_FAMILIES } from '../constants/googleFonts';
 
@@ -22,7 +23,8 @@ export default function Fonts() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createItem, { isLoading: creating }] = useCreateFontMutation();
   const [updateItem, { isLoading: updating }] = useUpdateFontMutation();
-  const [deleteItem] = useDeleteFontMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteFontMutation();
 
   const fonts = fontsResp?.data ?? fontsResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -153,9 +155,11 @@ export default function Fonts() {
       title: 'Actions', width: 110, render: (_, row) => (
         <Space>
           <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete font?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Delete failed'))}>
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

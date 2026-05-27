@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, InputNumber, Select, Switch, Popconfirm, message, Tag } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Modal, Form, Input, InputNumber, Select, Switch, /* Popconfirm, */ message, Tag } from 'antd';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined } from '@ant-design/icons';
 import {
   useGetAddBordersQuery,
   useCreateAddBorderMutation,
   useUpdateAddBorderMutation,
-  useDeleteAddBorderMutation,
+  // useDeleteAddBorderMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 const SHAPES = [
@@ -28,7 +28,8 @@ export default function AddBorders() {
   const { data: resp, isLoading } = useGetAddBordersQuery({ page: 1, limit: 200 });
   const [createRow, { isLoading: creating }] = useCreateAddBorderMutation();
   const [updateRow, { isLoading: updating }] = useUpdateAddBorderMutation();
-  const [deleteRow] = useDeleteAddBorderMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteRow] = useDeleteAddBorderMutation();
 
   const rows = resp?.data ?? resp ?? [];
 
@@ -102,9 +103,11 @@ export default function AddBorders() {
       render: (_, row) => (
         <Space>
           <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete?" onConfirm={async () => { await deleteRow(row.id).unwrap(); message.success('Deleted'); }}>
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

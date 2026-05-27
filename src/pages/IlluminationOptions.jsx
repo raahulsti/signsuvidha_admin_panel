@@ -1,17 +1,17 @@
 import { useMemo, useState } from 'react';
 import {
   Table, Button, Space, Modal, Form, Input, InputNumber, Select,
-  Switch, Popconfirm, message, Tag, Upload, Image,
+  Switch, /* Popconfirm, */ message, Tag, Upload, Image,
 } from 'antd';
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined,
+  PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined, UploadOutlined,
 } from '@ant-design/icons';
 import {
   useGetIlluminationOptionsQuery,
   useGetProductTypesQuery,
   useCreateIlluminationOptionMutation,
   useUpdateIlluminationOptionMutation,
-  useDeleteIlluminationOptionMutation,
+  // useDeleteIlluminationOptionMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 const CATEGORY_LABELS = { lit: 'Lit', non_lit: 'Non-Lit' };
@@ -28,7 +28,8 @@ export default function IlluminationOptions() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createItem, { isLoading: creating }] = useCreateIlluminationOptionMutation();
   const [updateItem, { isLoading: updating }] = useUpdateIlluminationOptionMutation();
-  const [deleteItem] = useDeleteIlluminationOptionMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteIlluminationOptionMutation();
 
   const rows = listResp?.data ?? listResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -135,9 +136,11 @@ export default function IlluminationOptions() {
       render: (_, row) => (
         <Space>
           <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Failed'))}>
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

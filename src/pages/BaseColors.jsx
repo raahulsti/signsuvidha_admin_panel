@@ -3,7 +3,7 @@ import {
   useGetBaseColorsQuery,
   useCreateBaseColorMutation,
   useUpdateBaseColorMutation,
-  useDeleteBaseColorMutation,
+  // useDeleteBaseColorMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function BaseColors() {
@@ -13,7 +13,7 @@ export default function BaseColors() {
       useListQuery={useGetBaseColorsQuery}
       useCreateMutation={useCreateBaseColorMutation}
       useUpdateMutation={useUpdateBaseColorMutation}
-      useDeleteMutation={useDeleteBaseColorMutation}
+      // useDeleteMutation={useDeleteBaseColorMutation}
     />
   );
 }

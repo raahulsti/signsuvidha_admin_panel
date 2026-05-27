@@ -3,7 +3,7 @@ import {
   useGetBorderColorsQuery,
   useCreateBorderColorMutation,
   useUpdateBorderColorMutation,
-  useDeleteBorderColorMutation,
+  // useDeleteBorderColorMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function BorderColors() {
@@ -13,7 +13,7 @@ export default function BorderColors() {
       useListQuery={useGetBorderColorsQuery}
       useCreateMutation={useCreateBorderColorMutation}
       useUpdateMutation={useUpdateBorderColorMutation}
-      useDeleteMutation={useDeleteBorderColorMutation}
+      // useDeleteMutation={useDeleteBorderColorMutation}
     />
   );
 }

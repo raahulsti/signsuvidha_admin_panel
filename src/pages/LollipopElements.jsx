@@ -8,18 +8,18 @@ import {
   Input,
   InputNumber,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
   Upload,
   Image,
 } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   useGetLollipopElementsQuery,
   useCreateLollipopElementMutation,
   useUpdateLollipopElementMutation,
-  useDeleteLollipopElementMutation,
+  // useDeleteLollipopElementMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 const LOLLIPOP_PRODUCT_TYPE_ID = 6;
@@ -33,7 +33,8 @@ export default function LollipopElements() {
   const { data: resp, isLoading } = useGetLollipopElementsQuery({ page: 1, limit: 200 });
   const [createRow, { isLoading: creating }] = useCreateLollipopElementMutation();
   const [updateRow, { isLoading: updating }] = useUpdateLollipopElementMutation();
-  const [deleteRow] = useDeleteLollipopElementMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteRow] = useDeleteLollipopElementMutation();
 
   const rows = resp?.data ?? resp ?? [];
 
@@ -135,9 +136,11 @@ export default function LollipopElements() {
       render: (_, row) => (
         <Space>
           <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete?" onConfirm={async () => { await deleteRow(row.id).unwrap(); message.success('Deleted'); }}>
             <Button type="link" danger icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

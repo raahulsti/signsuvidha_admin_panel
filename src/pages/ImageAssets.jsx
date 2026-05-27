@@ -8,7 +8,7 @@ import {
   Input,
   Select,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
   Upload,
@@ -18,7 +18,7 @@ import {
 import {
   PlusOutlined,
   EditOutlined,
-  DeleteOutlined,
+  // DeleteOutlined,
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
@@ -27,7 +27,7 @@ import {
   useGetProductTypesQuery,
   useCreateImageAssetMutation,
   useUpdateImageAssetMutation,
-  useDeleteImageAssetMutation,
+  // useDeleteImageAssetMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 const COMMON_IMAGE_TYPES = ['wallpaper', 'base', 'frame', 'pylon'];
@@ -44,7 +44,8 @@ export default function ImageAssets() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createImageAsset, { isLoading: creating }] = useCreateImageAssetMutation();
   const [updateImageAsset, { isLoading: updating }] = useUpdateImageAssetMutation();
-  const [deleteImageAsset] = useDeleteImageAssetMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteImageAsset] = useDeleteImageAssetMutation();
 
   const imageAssets = imageAssetsResp?.data ?? imageAssetsResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -129,14 +130,15 @@ export default function ImageAssets() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteImageAsset(id).unwrap();
-      message.success('Image asset deleted');
-    } catch (err) {
-      message.error(err?.data?.message || 'Delete failed');
-    }
-  };
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await deleteImageAsset(id).unwrap();
+  //     message.success('Image asset deleted');
+  //   } catch (err) {
+  //     message.error(err?.data?.message || 'Delete failed');
+  //   }
+  // };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
@@ -176,9 +178,11 @@ export default function ImageAssets() {
       render: (_, row) => (
         <Space>
           <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete this image asset?" onConfirm={() => handleDelete(row.id)}>
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

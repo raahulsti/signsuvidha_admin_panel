@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, InputNumber, Popconfirm, message, Alert } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
-import { useGetDimensionUnitsQuery, useCreateDimensionUnitMutation, useUpdateDimensionUnitMutation, useDeleteDimensionUnitMutation } from '../api/adminApi';
+import { Table, Button, Space, Modal, Form, Input, InputNumber, /* Popconfirm, */ message, Alert } from 'antd';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined } from '@ant-design/icons';
+import { useGetDimensionUnitsQuery, useCreateDimensionUnitMutation, useUpdateDimensionUnitMutation /* , useDeleteDimensionUnitMutation */ } from '../api/adminApi';
 
 export default function DimensionUnits() {
   const [form] = Form.useForm();
@@ -11,7 +11,8 @@ export default function DimensionUnits() {
   const { data: resp, isLoading } = useGetDimensionUnitsQuery();
   const [createItem, { isLoading: creating }] = useCreateDimensionUnitMutation();
   const [updateItem, { isLoading: updating }] = useUpdateDimensionUnitMutation();
-  const [deleteItem] = useDeleteDimensionUnitMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteDimensionUnitMutation();
   const list = resp?.data ?? resp ?? [];
 
   const filtered = useMemo(() => {
@@ -58,9 +59,11 @@ export default function DimensionUnits() {
             title: 'Actions', width: 110, render: (_, row) => (
               <Space>
                 <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+                {/* Delete disabled — use is_active instead to preserve cart/order references
                 <Popconfirm title="Delete?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Delete failed'))}>
                   <Button type="link" danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                */}
               </Space>
             ),
           },

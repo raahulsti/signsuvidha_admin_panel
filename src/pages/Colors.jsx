@@ -3,7 +3,7 @@ import {
   useGetColorsQuery,
   useCreateColorMutation,
   useUpdateColorMutation,
-  useDeleteColorMutation,
+  // useDeleteColorMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function Colors() {
@@ -13,7 +13,7 @@ export default function Colors() {
       useListQuery={useGetColorsQuery}
       useCreateMutation={useCreateColorMutation}
       useUpdateMutation={useUpdateColorMutation}
-      useDeleteMutation={useDeleteColorMutation}
+      // useDeleteMutation={useDeleteColorMutation}
     />
   );
 }

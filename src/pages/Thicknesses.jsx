@@ -9,7 +9,7 @@ import {
   InputNumber,
   Select,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
   Upload,
@@ -18,7 +18,7 @@ import {
 import {
   PlusOutlined,
   EditOutlined,
-  DeleteOutlined,
+  // DeleteOutlined,
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
@@ -27,7 +27,7 @@ import {
   useGetProductTypesQuery,
   useCreateThicknessMutation,
   useUpdateThicknessMutation,
-  useDeleteThicknessMutation,
+  // useDeleteThicknessMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function Thicknesses() {
@@ -41,7 +41,8 @@ export default function Thicknesses() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createThickness, { isLoading: creating }] = useCreateThicknessMutation();
   const [updateThickness, { isLoading: updating }] = useUpdateThicknessMutation();
-  const [deleteThickness] = useDeleteThicknessMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteThickness] = useDeleteThicknessMutation();
 
   const thicknesses = thicknessesResp?.data ?? thicknessesResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -120,14 +121,15 @@ export default function Thicknesses() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteThickness(id).unwrap();
-      message.success('Thickness deleted');
-    } catch (err) {
-      message.error(err?.data?.message || 'Delete failed');
-    }
-  };
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await deleteThickness(id).unwrap();
+  //     message.success('Thickness deleted');
+  //   } catch (err) {
+  //     message.error(err?.data?.message || 'Delete failed');
+  //   }
+  // };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
@@ -178,12 +180,14 @@ export default function Thicknesses() {
             icon={<EditOutlined />}
             onClick={() => openEditModal(row)}
           />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm
             title="Delete this thickness?"
             onConfirm={() => handleDelete(row.id)}
           >
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

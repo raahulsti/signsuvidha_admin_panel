@@ -9,7 +9,7 @@ import {
   InputNumber,
   Select,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
   Upload,
@@ -18,7 +18,7 @@ import {
 import {
   PlusOutlined,
   EditOutlined,
-  DeleteOutlined,
+  // DeleteOutlined,
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
@@ -27,7 +27,7 @@ import {
   useGetProductTypesQuery,
   useCreateBaseMutation,
   useUpdateBaseMutation,
-  useDeleteBaseMutation,
+  // useDeleteBaseMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function Bases() {
@@ -41,7 +41,8 @@ export default function Bases() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createBase, { isLoading: creating }] = useCreateBaseMutation();
   const [updateBase, { isLoading: updating }] = useUpdateBaseMutation();
-  const [deleteBase] = useDeleteBaseMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteBase] = useDeleteBaseMutation();
 
   const bases = basesResp?.data ?? basesResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -124,14 +125,15 @@ export default function Bases() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteBase(id).unwrap();
-      message.success('Base deleted');
-    } catch (err) {
-      message.error(err?.data?.message || 'Delete failed');
-    }
-  };
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await deleteBase(id).unwrap();
+  //     message.success('Base deleted');
+  //   } catch (err) {
+  //     message.error(err?.data?.message || 'Delete failed');
+  //   }
+  // };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
@@ -182,12 +184,14 @@ export default function Bases() {
             icon={<EditOutlined />}
             onClick={() => openEditModal(row)}
           />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm
             title="Delete this base?"
             onConfirm={() => handleDelete(row.id)}
           >
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

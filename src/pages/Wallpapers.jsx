@@ -9,7 +9,7 @@ import {
   InputNumber,
   Select,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
   Upload,
@@ -18,7 +18,7 @@ import {
 import {
   PlusOutlined,
   EditOutlined,
-  DeleteOutlined,
+  // DeleteOutlined,
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
@@ -27,7 +27,7 @@ import {
   useGetProductTypesQuery,
   useCreateWallpaperMutation,
   useUpdateWallpaperMutation,
-  useDeleteWallpaperMutation,
+  // useDeleteWallpaperMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 const WALLPAPER_TYPES = [
@@ -47,7 +47,8 @@ export default function Wallpapers() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createWallpaper, { isLoading: creating }] = useCreateWallpaperMutation();
   const [updateWallpaper, { isLoading: updating }] = useUpdateWallpaperMutation();
-  const [deleteWallpaper] = useDeleteWallpaperMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteWallpaper] = useDeleteWallpaperMutation();
 
   const wallpapers = wallpapersResp?.data ?? wallpapersResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -127,14 +128,15 @@ export default function Wallpapers() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteWallpaper(id).unwrap();
-      message.success('Wallpaper deleted');
-    } catch (err) {
-      message.error(err?.data?.message || 'Delete failed');
-    }
-  };
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await deleteWallpaper(id).unwrap();
+  //     message.success('Wallpaper deleted');
+  //   } catch (err) {
+  //     message.error(err?.data?.message || 'Delete failed');
+  //   }
+  // };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
@@ -176,9 +178,11 @@ export default function Wallpapers() {
       render: (_, row) => (
         <Space>
           <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete this wallpaper?" onConfirm={() => handleDelete(row.id)}>
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

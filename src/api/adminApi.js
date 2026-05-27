@@ -62,10 +62,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/image-assets/${id}`, method: 'PUT', body }),
       invalidatesTags: ['ImageAssets'],
     }),
-    deleteImageAsset: builder.mutation({
-      query: (id) => ({ url: `/admin/image-assets/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['ImageAssets'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteImageAsset: builder.mutation({
+  //   query: (id) => ({ url: `/admin/image-assets/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['ImageAssets'],
+  // }),
     createMaterial: builder.mutation({
       query: (body) => ({ url: '/admin/materials', method: 'POST', body }),
       invalidatesTags: ['Materials'],
@@ -74,10 +75,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/materials/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Materials'],
     }),
-    deleteMaterial: builder.mutation({
-      query: (id) => ({ url: `/admin/materials/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Materials'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteMaterial: builder.mutation({
+  //   query: (id) => ({ url: `/admin/materials/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Materials'],
+  // }),
     getMaterialStyles: builder.query({
       query: (params) => ({ url: '/admin/material-styles', params }),
       providesTags: ['MaterialStyles'],
@@ -90,10 +92,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/material-styles/${id}`, method: 'PUT', body }),
       invalidatesTags: ['MaterialStyles'],
     }),
-    deleteMaterialStyle: builder.mutation({
-      query: (id) => ({ url: `/admin/material-styles/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['MaterialStyles'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteMaterialStyle: builder.mutation({
+  //   query: (id) => ({ url: `/admin/material-styles/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['MaterialStyles'],
+  // }),
     getFrames: builder.query({
       query: (params) => ({ url: '/admin/frames', params }),
       providesTags: ['Frames'],
@@ -106,10 +109,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/frames/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Frames'],
     }),
-    deleteFrame: builder.mutation({
-      query: (id) => ({ url: `/admin/frames/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Frames'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteFrame: builder.mutation({
+  //   query: (id) => ({ url: `/admin/frames/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Frames'],
+  // }),
     getWallpapers: builder.query({
       query: (params) => ({ url: '/admin/wallpapers', params }),
       providesTags: ['Wallpapers'],
@@ -122,10 +126,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/wallpapers/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Wallpapers'],
     }),
-    deleteWallpaper: builder.mutation({
-      query: (id) => ({ url: `/admin/wallpapers/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Wallpapers'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteWallpaper: builder.mutation({
+  //   query: (id) => ({ url: `/admin/wallpapers/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Wallpapers'],
+  // }),
     getAddBorders: builder.query({
       query: (params) => ({ url: '/admin/add-borders', params }),
       providesTags: ['AddBorders'],
@@ -138,10 +143,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/add-borders/${id}`, method: 'PUT', body }),
       invalidatesTags: ['AddBorders'],
     }),
-    deleteAddBorder: builder.mutation({
-      query: (id) => ({ url: `/admin/add-borders/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['AddBorders'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteAddBorder: builder.mutation({
+  //   query: (id) => ({ url: `/admin/add-borders/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['AddBorders'],
+  // }),
     getLollipopElements: builder.query({
       query: (params) => ({ url: '/admin/lollipop-elements', params }),
       providesTags: ['LollipopElements'],
@@ -154,10 +160,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/lollipop-elements/${id}`, method: 'PUT', body }),
       invalidatesTags: ['LollipopElements'],
     }),
-    deleteLollipopElement: builder.mutation({
-      query: (id) => ({ url: `/admin/lollipop-elements/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['LollipopElements'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteLollipopElement: builder.mutation({
+  //   query: (id) => ({ url: `/admin/lollipop-elements/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['LollipopElements'],
+  // }),
     getPylons: builder.query({
       query: (params) => ({ url: '/admin/pylons', params }),
       providesTags: ['Pylons'],
@@ -174,10 +181,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/pylons/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Pylons'],
     }),
-    deletePylon: builder.mutation({
-      query: (id) => ({ url: `/admin/pylons/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Pylons'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deletePylon: builder.mutation({
+  //   query: (id) => ({ url: `/admin/pylons/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Pylons'],
+  // }),
     createPylonCategory: builder.mutation({
       query: ({ pylonId, body }) => ({ url: `/admin/pylons/${pylonId}/categories`, method: 'POST', body }),
       invalidatesTags: ['Pylons'],
@@ -190,13 +198,14 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ['Pylons'],
     }),
-    deletePylonCategory: builder.mutation({
-      query: ({ pylonId, categoryId }) => ({
-        url: `/admin/pylons/${pylonId}/categories/${categoryId}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Pylons'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deletePylonCategory: builder.mutation({
+  //   query: ({ pylonId, categoryId }) => ({
+  //     url: `/admin/pylons/${pylonId}/categories/${categoryId}`,
+  //     method: 'DELETE',
+  //   }),
+  //   invalidatesTags: ['Pylons'],
+  // }),
     getBases: builder.query({
       query: (params) => ({ url: '/admin/bases', params }),
       providesTags: ['Bases'],
@@ -209,10 +218,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/bases/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Bases'],
     }),
-    deleteBase: builder.mutation({
-      query: (id) => ({ url: `/admin/bases/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Bases'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteBase: builder.mutation({
+  //   query: (id) => ({ url: `/admin/bases/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Bases'],
+  // }),
     getThicknesses: builder.query({
       query: (params) => ({ url: '/admin/thicknesses', params }),
       providesTags: ['Thicknesses'],
@@ -225,10 +235,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/thicknesses/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Thicknesses'],
     }),
-    deleteThickness: builder.mutation({
-      query: (id) => ({ url: `/admin/thicknesses/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Thicknesses'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteThickness: builder.mutation({
+  //   query: (id) => ({ url: `/admin/thicknesses/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Thicknesses'],
+  // }),
     getElements: builder.query({
       query: (params) => ({ url: '/admin/elements', params }),
       providesTags: ['Elements'],
@@ -241,10 +252,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/elements/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Elements'],
     }),
-    deleteElement: builder.mutation({
-      query: (id) => ({ url: `/admin/elements/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Elements'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteElement: builder.mutation({
+  //   query: (id) => ({ url: `/admin/elements/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Elements'],
+  // }),
     getFonts: builder.query({
       query: () => '/admin/fonts',
       providesTags: ['Fonts'],
@@ -257,10 +269,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/fonts/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Fonts'],
     }),
-    deleteFont: builder.mutation({
-      query: (id) => ({ url: `/admin/fonts/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Fonts'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteFont: builder.mutation({
+  //   query: (id) => ({ url: `/admin/fonts/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Fonts'],
+  // }),
     getFontSizes: builder.query({
       query: () => '/admin/font-sizes',
       providesTags: ['FontSizes'],
@@ -273,10 +286,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/font-sizes/${id}`, method: 'PUT', body }),
       invalidatesTags: ['FontSizes'],
     }),
-    deleteFontSize: builder.mutation({
-      query: (id) => ({ url: `/admin/font-sizes/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['FontSizes'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteFontSize: builder.mutation({
+  //   query: (id) => ({ url: `/admin/font-sizes/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['FontSizes'],
+  // }),
     getLetterStyles: builder.query({
       query: () => '/admin/letter-styles',
       providesTags: ['LetterStyles'],
@@ -289,10 +303,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/letter-styles/${id}`, method: 'PUT', body }),
       invalidatesTags: ['LetterStyles'],
     }),
-    deleteLetterStyle: builder.mutation({
-      query: (id) => ({ url: `/admin/letter-styles/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['LetterStyles'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteLetterStyle: builder.mutation({
+  //   query: (id) => ({ url: `/admin/letter-styles/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['LetterStyles'],
+  // }),
     getIlluminationOptions: builder.query({
       query: (params) => ({ url: '/admin/illumination-options', params }),
       providesTags: ['IlluminationOptions'],
@@ -305,10 +320,11 @@ export const adminApi = createApi({
       query: ({ id, body }) => ({ url: `/admin/illumination-options/${id}`, method: 'PUT', body }),
       invalidatesTags: ['IlluminationOptions'],
     }),
-    deleteIlluminationOption: builder.mutation({
-      query: (id) => ({ url: `/admin/illumination-options/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['IlluminationOptions'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteIlluminationOption: builder.mutation({
+  //   query: (id) => ({ url: `/admin/illumination-options/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['IlluminationOptions'],
+  // }),
     getDimensionUnits: builder.query({
       query: () => '/admin/dimension-units',
       providesTags: ['DimensionUnits'],
@@ -321,10 +337,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/dimension-units/${id}`, method: 'PUT', body }),
       invalidatesTags: ['DimensionUnits'],
     }),
-    deleteDimensionUnit: builder.mutation({
-      query: (id) => ({ url: `/admin/dimension-units/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['DimensionUnits'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteDimensionUnit: builder.mutation({
+  //   query: (id) => ({ url: `/admin/dimension-units/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['DimensionUnits'],
+  // }),
     getShippingServices: builder.query({
       query: () => '/admin/shipping-services',
       providesTags: ['ShippingServices'],
@@ -337,10 +354,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/shipping-services/${id}`, method: 'PUT', body }),
       invalidatesTags: ['ShippingServices'],
     }),
-    deleteShippingService: builder.mutation({
-      query: (id) => ({ url: `/admin/shipping-services/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['ShippingServices'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteShippingService: builder.mutation({
+  //   query: (id) => ({ url: `/admin/shipping-services/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['ShippingServices'],
+  // }),
     getListedProducts: builder.query({
       query: () => '/admin/listed-products',
       providesTags: ['ListedProducts'],
@@ -363,10 +381,11 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ['ListedProducts'],
     }),
-    deleteListedProduct: builder.mutation({
-      query: (id) => ({ url: `/admin/listed-products/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['ListedProducts'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteListedProduct: builder.mutation({
+  //   query: (id) => ({ url: `/admin/listed-products/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['ListedProducts'],
+  // }),
     getColors: builder.query({
       query: () => '/admin/colors',
       providesTags: ['Colors'],
@@ -379,10 +398,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/colors/${id}`, method: 'PUT', body }),
       invalidatesTags: ['Colors'],
     }),
-    deleteColor: builder.mutation({
-      query: (id) => ({ url: `/admin/colors/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Colors'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteColor: builder.mutation({
+  //   query: (id) => ({ url: `/admin/colors/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['Colors'],
+  // }),
     assignColorProducts: builder.mutation({
       query: ({ id, product_type_ids }) => ({ url: `/admin/colors/${id}/assign-products`, method: 'POST', body: { product_type_ids } }),
       invalidatesTags: ['Colors'],
@@ -399,10 +419,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/shadow-colors/${id}`, method: 'PUT', body }),
       invalidatesTags: ['ShadowColors'],
     }),
-    deleteShadowColor: builder.mutation({
-      query: (id) => ({ url: `/admin/shadow-colors/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['ShadowColors'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteShadowColor: builder.mutation({
+  //   query: (id) => ({ url: `/admin/shadow-colors/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['ShadowColors'],
+  // }),
     assignShadowColorProducts: builder.mutation({
       query: ({ id, product_type_ids }) => ({ url: `/admin/shadow-colors/${id}/assign-products`, method: 'POST', body: { product_type_ids } }),
       invalidatesTags: ['ShadowColors'],
@@ -419,10 +440,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/border-colors/${id}`, method: 'PUT', body }),
       invalidatesTags: ['BorderColors'],
     }),
-    deleteBorderColor: builder.mutation({
-      query: (id) => ({ url: `/admin/border-colors/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['BorderColors'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteBorderColor: builder.mutation({
+  //   query: (id) => ({ url: `/admin/border-colors/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['BorderColors'],
+  // }),
     assignBorderColorProducts: builder.mutation({
       query: ({ id, product_type_ids }) => ({ url: `/admin/border-colors/${id}/assign-products`, method: 'POST', body: { product_type_ids } }),
       invalidatesTags: ['BorderColors'],
@@ -439,10 +461,11 @@ export const adminApi = createApi({
       query: ({ id, ...body }) => ({ url: `/admin/base-colors/${id}`, method: 'PUT', body }),
       invalidatesTags: ['BaseColors'],
     }),
-    deleteBaseColor: builder.mutation({
-      query: (id) => ({ url: `/admin/base-colors/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['BaseColors'],
-    }),
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // deleteBaseColor: builder.mutation({
+  //   query: (id) => ({ url: `/admin/base-colors/${id}`, method: 'DELETE' }),
+  //   invalidatesTags: ['BaseColors'],
+  // }),
     assignBaseColorProducts: builder.mutation({
       query: ({ id, product_type_ids }) => ({ url: `/admin/base-colors/${id}/assign-products`, method: 'POST', body: { product_type_ids } }),
       invalidatesTags: ['BaseColors'],
@@ -503,95 +526,95 @@ export const {
   useCreateImageAssetMutation,
   useUpdateMaterialMutation,
   useUpdateImageAssetMutation,
-  useDeleteMaterialMutation,
+  // useDeleteMaterialMutation,
   useGetMaterialStylesQuery,
   useCreateMaterialStyleMutation,
   useUpdateMaterialStyleMutation,
-  useDeleteMaterialStyleMutation,
+  // useDeleteMaterialStyleMutation,
   useGetFramesQuery,
   useCreateFrameMutation,
   useUpdateFrameMutation,
-  useDeleteFrameMutation,
+  // useDeleteFrameMutation,
   useGetWallpapersQuery,
   useCreateWallpaperMutation,
   useUpdateWallpaperMutation,
-  useDeleteWallpaperMutation,
+  // useDeleteWallpaperMutation,
   useGetAddBordersQuery,
   useCreateAddBorderMutation,
   useUpdateAddBorderMutation,
-  useDeleteAddBorderMutation,
+  // useDeleteAddBorderMutation,
   useGetLollipopElementsQuery,
   useCreateLollipopElementMutation,
   useUpdateLollipopElementMutation,
-  useDeleteLollipopElementMutation,
+  // useDeleteLollipopElementMutation,
   useGetPylonsQuery,
   useGetPylonQuery,
   useCreatePylonMutation,
   useUpdatePylonMutation,
-  useDeletePylonMutation,
+  // useDeletePylonMutation,
   useCreatePylonCategoryMutation,
   useUpdatePylonCategoryMutation,
-  useDeletePylonCategoryMutation,
+  // useDeletePylonCategoryMutation,
   useGetBasesQuery,
   useCreateBaseMutation,
   useUpdateBaseMutation,
-  useDeleteBaseMutation,
+  // useDeleteBaseMutation,
   useGetThicknessesQuery,
   useCreateThicknessMutation,
   useUpdateThicknessMutation,
-  useDeleteThicknessMutation,
-  useDeleteImageAssetMutation,
+  // useDeleteThicknessMutation,
+  // useDeleteImageAssetMutation,
   useGetElementsQuery,
   useCreateElementMutation,
   useUpdateElementMutation,
-  useDeleteElementMutation,
+  // useDeleteElementMutation,
   useGetFontsQuery,
   useCreateFontMutation,
   useUpdateFontMutation,
-  useDeleteFontMutation,
+  // useDeleteFontMutation,
   useGetFontSizesQuery,
   useCreateFontSizeMutation,
   useUpdateFontSizeMutation,
-  useDeleteFontSizeMutation,
+  // useDeleteFontSizeMutation,
   useGetLetterStylesQuery,
   useCreateLetterStyleMutation,
   useUpdateLetterStyleMutation,
-  useDeleteLetterStyleMutation,
+  // useDeleteLetterStyleMutation,
   useGetIlluminationOptionsQuery,
   useCreateIlluminationOptionMutation,
   useUpdateIlluminationOptionMutation,
-  useDeleteIlluminationOptionMutation,
+  // useDeleteIlluminationOptionMutation,
   useGetDimensionUnitsQuery,
   useCreateDimensionUnitMutation,
   useUpdateDimensionUnitMutation,
-  useDeleteDimensionUnitMutation,
+  // useDeleteDimensionUnitMutation,
   useGetShippingServicesQuery,
   useCreateShippingServiceMutation,
   useUpdateShippingServiceMutation,
-  useDeleteShippingServiceMutation,
+  // useDeleteShippingServiceMutation,
   useGetListedProductsQuery,
   useCreateListedProductMutation,
   useUpdateListedProductMutation,
-  useDeleteListedProductMutation,
+  // useDeleteListedProductMutation,
   useGetColorsQuery,
   useCreateColorMutation,
   useUpdateColorMutation,
-  useDeleteColorMutation,
+  // useDeleteColorMutation,
   useAssignColorProductsMutation,
   useGetShadowColorsQuery,
   useCreateShadowColorMutation,
   useUpdateShadowColorMutation,
-  useDeleteShadowColorMutation,
+  // useDeleteShadowColorMutation,
   useAssignShadowColorProductsMutation,
   useGetBorderColorsQuery,
   useCreateBorderColorMutation,
   useUpdateBorderColorMutation,
-  useDeleteBorderColorMutation,
+  // useDeleteBorderColorMutation,
   useAssignBorderColorProductsMutation,
   useGetBaseColorsQuery,
   useCreateBaseColorMutation,
   useUpdateBaseColorMutation,
-  useDeleteBaseColorMutation,
+  // useDeleteBaseColorMutation,
   useAssignBaseColorProductsMutation,
   useGetVendorsQuery,
   useApproveVendorMutation,

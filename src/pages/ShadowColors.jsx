@@ -3,7 +3,7 @@ import {
   useGetShadowColorsQuery,
   useCreateShadowColorMutation,
   useUpdateShadowColorMutation,
-  useDeleteShadowColorMutation,
+  // useDeleteShadowColorMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function ShadowColors() {
@@ -13,7 +13,7 @@ export default function ShadowColors() {
       useListQuery={useGetShadowColorsQuery}
       useCreateMutation={useCreateShadowColorMutation}
       useUpdateMutation={useUpdateShadowColorMutation}
-      useDeleteMutation={useDeleteShadowColorMutation}
+      // useDeleteMutation={useDeleteShadowColorMutation}
     />
   );
 }

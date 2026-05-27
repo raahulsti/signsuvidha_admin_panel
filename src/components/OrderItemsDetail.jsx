@@ -200,6 +200,7 @@ function OrderItemCard({ item, index }) {
           <SpecLine label="Dimensions" value={[lp.height, lp.width].filter(Boolean).join(' × ')} />
         )}
         <SpecLine label="Qty" value={item.quantity} />
+        <EntityBlock title="Color" entity={item.color} />
         <SpecLine label="Total" value={fmt(item.pricing?.total_price)} />
       </Card>
     );

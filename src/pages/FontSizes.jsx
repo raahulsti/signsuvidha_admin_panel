@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, InputNumber, Switch, Popconfirm, message } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
-import { useGetFontSizesQuery, useCreateFontSizeMutation, useUpdateFontSizeMutation, useDeleteFontSizeMutation } from '../api/adminApi';
+import { Table, Button, Space, Modal, Form, Input, InputNumber, Switch, /* Popconfirm, */ message } from 'antd';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined } from '@ant-design/icons';
+import { useGetFontSizesQuery, useCreateFontSizeMutation, useUpdateFontSizeMutation /* , useDeleteFontSizeMutation */ } from '../api/adminApi';
 
 export default function FontSizes() {
   const [form] = Form.useForm();
@@ -11,7 +11,8 @@ export default function FontSizes() {
   const { data: resp, isLoading } = useGetFontSizesQuery();
   const [createItem, { isLoading: creating }] = useCreateFontSizeMutation();
   const [updateItem, { isLoading: updating }] = useUpdateFontSizeMutation();
-  const [deleteItem] = useDeleteFontSizeMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteFontSizeMutation();
   const list = resp?.data ?? resp ?? [];
 
   const filtered = useMemo(() => {
@@ -53,9 +54,11 @@ export default function FontSizes() {
             title: 'Actions', width: 110, render: (_, row) => (
               <Space>
                 <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+                {/* Delete disabled — use is_active instead to preserve cart/order references
                 <Popconfirm title="Delete?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Delete failed'))}>
                   <Button type="link" danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                */}
               </Space>
             ),
           },

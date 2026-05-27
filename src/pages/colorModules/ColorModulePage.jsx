@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import {
-  Table, Button, Space, Modal, Form, Input, InputNumber, message, Popconfirm, Select,
+  Table, Button, Space, Modal, Form, Input, InputNumber, message, /* Popconfirm, */ Select,
 } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined } from '@ant-design/icons';
 import { useGetProductTypesQuery } from '../../api/adminApi';
 
 export default function ColorModulePage({
@@ -10,7 +10,7 @@ export default function ColorModulePage({
   useListQuery,
   useCreateMutation,
   useUpdateMutation,
-  useDeleteMutation,
+  // useDeleteMutation, // Delete disabled — use is_active instead to preserve cart/order references
 }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -21,7 +21,8 @@ export default function ColorModulePage({
   const { data: ptResp = [] } = useGetProductTypesQuery();
   const [createItem, { isLoading: creating }] = useCreateMutation();
   const [updateItem, { isLoading: updating }] = useUpdateMutation();
-  const [removeItem] = useDeleteMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [removeItem] = useDeleteMutation();
 
   const productTypes = Array.isArray(ptResp) ? ptResp : ptResp?.data ?? [];
   const list = Array.isArray(data) ? data : data?.data ?? [];
@@ -118,12 +119,14 @@ export default function ColorModulePage({
             render: (_, row) => (
               <Space>
                 <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+                {/* Delete disabled — use is_active instead to preserve cart/order references
                 <Popconfirm
                   title="Delete?"
                   onConfirm={() => removeItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Failed'))}
                 >
                   <Button type="link" danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                */}
               </Space>
             ),
           },

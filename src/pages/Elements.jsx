@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
 import {
   Table, Button, Space, Modal, Form, Input, InputNumber, Select,
-  Switch, Popconfirm, message, Tag, Upload,
+  Switch, /* Popconfirm, */ message, Tag, Upload,
 } from 'antd';
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined,
+  PlusOutlined, EditOutlined, /* DeleteOutlined, */ SearchOutlined, UploadOutlined,
 } from '@ant-design/icons';
 import {
   useGetElementsQuery, useCreateElementMutation, useUpdateElementMutation,
-  useDeleteElementMutation, useGetProductTypesQuery,
+  // useDeleteElementMutation, // Delete disabled — use is_active instead to preserve cart/order references
+  useGetProductTypesQuery,
 } from '../api/adminApi';
 
 export default function Elements() {
@@ -21,7 +22,8 @@ export default function Elements() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createItem, { isLoading: creating }] = useCreateElementMutation();
   const [updateItem, { isLoading: updating }] = useUpdateElementMutation();
-  const [deleteItem] = useDeleteElementMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteItem] = useDeleteElementMutation();
 
   const elements = elementsResp?.data ?? elementsResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -91,9 +93,11 @@ export default function Elements() {
       title: 'Actions', width: 110, render: (_, row) => (
         <Space>
           <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEdit(row)} />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm title="Delete element?" onConfirm={() => deleteItem(row.id).unwrap().then(() => message.success('Deleted')).catch(() => message.error('Delete failed'))}>
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

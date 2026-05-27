@@ -9,7 +9,7 @@ import {
   InputNumber,
   Select,
   Switch,
-  Popconfirm,
+  // Popconfirm,
   message,
   Tag,
   Upload,
@@ -18,7 +18,7 @@ import {
 import {
   PlusOutlined,
   EditOutlined,
-  DeleteOutlined,
+  // DeleteOutlined,
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
@@ -27,7 +27,7 @@ import {
   useGetProductTypesQuery,
   useCreateMaterialMutation,
   useUpdateMaterialMutation,
-  useDeleteMaterialMutation,
+  // useDeleteMaterialMutation, // Delete disabled — use is_active instead to preserve cart/order references
 } from '../api/adminApi';
 
 export default function Materials() {
@@ -41,7 +41,8 @@ export default function Materials() {
   const { data: productTypesResp } = useGetProductTypesQuery();
   const [createMaterial, { isLoading: creating }] = useCreateMaterialMutation();
   const [updateMaterial, { isLoading: updating }] = useUpdateMaterialMutation();
-  const [deleteMaterial] = useDeleteMaterialMutation();
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const [deleteMaterial] = useDeleteMaterialMutation();
 
   const materials = materialsResp?.data ?? materialsResp ?? [];
   const productTypes = productTypesResp?.data ?? productTypesResp ?? [];
@@ -124,14 +125,15 @@ export default function Materials() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteMaterial(id).unwrap();
-      message.success('Material deleted');
-    } catch (err) {
-      message.error(err?.data?.message || 'Delete failed');
-    }
-  };
+  // Delete disabled — use is_active instead to preserve cart/order references
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await deleteMaterial(id).unwrap();
+  //     message.success('Material deleted');
+  //   } catch (err) {
+  //     message.error(err?.data?.message || 'Delete failed');
+  //   }
+  // };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 70 },
@@ -182,12 +184,14 @@ export default function Materials() {
             icon={<EditOutlined />}
             onClick={() => openEditModal(row)}
           />
+          {/* Delete disabled — use is_active instead to preserve cart/order references
           <Popconfirm
             title="Delete this material?"
             onConfirm={() => handleDelete(row.id)}
           >
             <Button type="link" danger size="small" icon={<DeleteOutlined />} />
           </Popconfirm>
+          */}
         </Space>
       ),
     },

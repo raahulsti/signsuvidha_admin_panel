@@ -164,6 +164,59 @@ function TextLayersBlock({ layers }) {
   );
 }
 
+function DimensionAreaBlock({ item }) {
+  const textDims = item.text_dimension || [];
+  const logoDims = item.logo_dimension || [];
+  if (!textDims.length && !logoDims.length) return null;
+
+  const p = item.pricing || {};
+  const renderEntries = (title, entries) => {
+    if (!entries.length) return null;
+    return (
+      <div style={{ marginTop: 8 }}>
+        <Text strong>{title}</Text>
+        {entries.map((e, i) => {
+          const area = (Number(e.height) || 0) * (Number(e.width) || 0);
+          return (
+            <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
+              <Text type="secondary" style={{ minWidth: 120, flexShrink: 0 }}>
+                {e.text || `Entry ${i + 1}`}
+              </Text>
+              <Text style={{ wordBreak: 'break-word' }}>
+                {`${e.height} × ${e.width} = ${area}`}
+                {e.unit_name ? ` ${e.unit_name}` : e.unit ? ` (unit #${e.unit})` : ''}
+              </Text>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  const areaLine = (label, v, strong) =>
+    v == null ? null : <SpecLine key={label} label={label} value={`${Number(v).toFixed(4)} sq ft`} strong={strong} />;
+
+  return (
+    <div
+      style={{
+        marginTop: 12,
+        padding: '10px 12px',
+        background: '#f6ffed',
+        border: '1px solid #b7eb8f',
+        borderRadius: 6,
+      }}
+    >
+      <Text strong>3D area calculation</Text>
+      {renderEntries('Text dimensions', textDims)}
+      {renderEntries('Logo dimensions', logoDims)}
+      <Divider style={{ margin: '8px 0' }} />
+      {areaLine('Base area', p.base_area_sqft)}
+      {areaLine('Text area', p.text_area_sqft)}
+      {areaLine('Logo area', p.logo_area_sqft)}
+      {areaLine('Total area', p.area_sqft, true)}
+    </div>
+  );
+}
+
 function OrderTotalsCard({ amounts }) {
   if (!amounts) return null;
   const subtotal = amounts.subtotal ?? amounts.total_amount;
@@ -282,6 +335,7 @@ function OrderItemCard({ item, index }) {
           <EntityBlock title="Font" entity={item.font} />
           <EntityBlock title="Illumination" entity={item.illumination_option} />
           <TextLayersBlock layers={item.text_layers} />
+          <DimensionAreaBlock item={item} />
           {breakdownRows.length > 0 && (
             <Collapse
               size="small"

@@ -31,6 +31,7 @@ export const adminApi = createApi({
     'BaseColors',
     'Vendors',
     'Orders',
+    'Customers',
     'CmsPages',
   ],
   endpoints: (builder) => ({
@@ -513,6 +514,18 @@ export const adminApi = createApi({
     emailOrderInvoice: builder.mutation({
       query: ({ id, email }) => ({ url: `/admin/orders/${id}/invoice/email`, method: 'POST', body: { email } }),
     }),
+    getCustomers: builder.query({
+      query: (params) => ({ url: '/admin/customers', params }),
+      providesTags: ['Customers'],
+    }),
+    getCustomer: builder.query({
+      query: (id) => `/admin/customers/${id}`,
+      providesTags: (_, __, id) => [{ type: 'Customers', id }],
+    }),
+    getCustomerOrders: builder.query({
+      query: ({ id, ...params }) => ({ url: `/admin/customers/${id}/orders`, params }),
+      providesTags: (_, __, { id }) => [{ type: 'Customers', id: `${id}-orders` }],
+    }),
   }),
 });
 
@@ -627,4 +640,7 @@ export const {
   useGetOrderQuery,
   useUpdateOrderStatusMutation,
   useEmailOrderInvoiceMutation,
+  useGetCustomersQuery,
+  useGetCustomerQuery,
+  useGetCustomerOrdersQuery,
 } = adminApi;

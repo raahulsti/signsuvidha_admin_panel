@@ -6,6 +6,7 @@ import {
   ShopOutlined,
   ContainerOutlined,
   UserOutlined,
+  TeamOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -61,6 +62,7 @@ const menuItems = [
   },
   { key: '/vendors', icon: <ShopOutlined />, label: <Link to="/vendors">Vendors</Link> },
   { key: '/orders', icon: <ContainerOutlined />, label: <Link to="/orders">Orders</Link> },
+  { key: '/customers', icon: <TeamOutlined />, label: <Link to="/customers">Customers</Link> },
   { key: '/cms-pages', icon: <FileTextOutlined />, label: <Link to="/cms-pages">CMS Pages</Link> },
 ];
 
@@ -79,7 +81,11 @@ export default function AdminLayout() {
     }
   }, [location.pathname]);
 
-  const selectedKey = location.pathname.startsWith('/orders') ? '/orders' : location.pathname;
+  const selectedKey = location.pathname.startsWith('/orders')
+    ? '/orders'
+    : location.pathname.startsWith('/customers')
+      ? '/customers'
+      : location.pathname;
 
   const handleLogout = async () => {
     try { await logoutApi(); } finally { dispatch(logout()); navigate('/login'); }

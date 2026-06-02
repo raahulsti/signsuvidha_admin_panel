@@ -29,6 +29,8 @@ import BaseColors from './pages/BaseColors';
 import Vendors from './pages/Vendors';
 import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
+import Customers from './pages/Customers';
+import CustomerDetail from './pages/CustomerDetail';
 import CmsPages from './pages/CmsPages';
 
 function ProtectedRoute({ children }) {
@@ -82,6 +84,8 @@ export default function App() {
           <Route path="vendors" element={<Vendors />} />
           <Route path="orders" element={<Orders />} />
           <Route path="orders/:id" element={<OrderDetail />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="customers/:id" element={<CustomerDetail />} />
           <Route path="cms-pages" element={<CmsPages />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
